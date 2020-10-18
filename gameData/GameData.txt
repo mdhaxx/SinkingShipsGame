@@ -1,0 +1,39 @@
+package com.company;
+
+import java.io.*;
+import java.util.Scanner;
+
+class GameData {
+    private Scanner scan;
+    private FileWriter fileWriter;
+    private boolean YesToSaveGame;
+
+    GameData(){}
+
+    private void saveGameData(GameData currentGameData) {
+        if(YesToSaveGame) {
+           try{
+               //Antingen outputstream/inputstream eller scanner/filewriter?
+               //DataOutputStream
+               fileWriter = new FileWriter(File.createTempFile("SavedGameData", "txt", new File("gameData")));
+               //scan = new Scanner(currentGameData);
+           } catch (Exception e) {
+               e.printStackTrace();
+           } finally { scan.close(); }
+        }
+    }
+
+    void loadSavedGameData() {
+        try {
+            scan = new Scanner(new File("gameData/savedGameData.txt"));
+            if (file.exists())
+                while (scan.hasNext()) {
+                    //DataInputStream
+                }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            scan.close();
+        }
+    }
+}
