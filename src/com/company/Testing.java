@@ -1,4 +1,4 @@
-package com.company;
+/*package com.company;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
@@ -50,5 +50,5 @@ public class Testing<brightness_4> extends JFrame {
             f.show();
         }
 }
-
+*/
 
