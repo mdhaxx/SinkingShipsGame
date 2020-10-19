@@ -1,8 +1,11 @@
 package com.company;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -10,7 +13,10 @@ public class Game {
     private int[][] leftGrid = new int[101][2];
     private int[][] rightGrid = new int[101][2];
     private String[] players = {"Admiral BigShot", ""};
+    private String[] placedAtGridPosition = { "Water", "Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer", "Game On" };
+
     private boolean yourTurn = true;
+    private String placeHolder = "";
 
     private boolean choseToSaveGame;
     private boolean previousGameIsSaved;
@@ -22,7 +28,9 @@ public class Game {
     private Game() {
 
         GameBoard gameBoard = new GameBoard(this);
+        gameBoard.initGameBoard();
         GamePlayer gameplayer = new GamePlayer(this);
+
 
 
         //initPlayers(gameplay);
@@ -43,44 +51,105 @@ public class Game {
     public boolean getYourTurn(){ return this.yourTurn; }
 
 
-    public void returnFromGamePlayer(GamePlayer gamePlayer, Game game) {
+    void returnFromGamePlayer(GamePlayer gamePlayer, Game game) {
         gamePlayer.dispose();
         whereAreWe("");
     }
 
-    public void whereAreWe(String actionCommand){
-        if(!actionCommand.equals("")){
-            placeYourShip("Carrier");
-        } else {
-
-
+    void whereAreWe(String actionCommand) {
+        if (actionCommand.equals("")) {
+            Ship currentShip = new Carrier(placedAtGridPosition[1]);
+            initCurrentShip(currentShip);
+        } else if(actionCommand.charAt(0) == 'l'){
+            Ship currentShip = new Carrier(placeHolder);
+            switch (placeHolder) {
+                case "Carrier":
+                    break;
+                case "Battleship":
+                    currentShip = new Battleship(placeHolder);
+                    break;
+                case "Cruiser":
+                    currentShip = new Cruiser(placeHolder);
+                    break;
+                case "Submarine":
+                    currentShip = new Submarine(placeHolder);
+                    break;
+                case "Destroyer":
+                    currentShip = new Destroyer(placeHolder);
+                    break;
+            }
+            leftGrid[Integer.parseInt(actionCommand.substring(5))][0] = currentShip.shipNumber;
+            ArrayList<Integer> listCounter = new ArrayList<>();
+            for(int i = 0; i <= 100; i++){
+                if(leftGrid[i][0] == currentShip.shipNumber){
+                    listCounter.add(leftGrid[i][0]);
+                }
+            }
+            if(listCounter.size() == currentShip.shipLength) {
+                placeHolder = placedAtGridPosition[currentShip.shipNumber + 1];
+                currentShip = new Carrier(placeHolder);
+                switch (placeHolder) {
+                    case "Carrier":
+                        break;
+                    case "Battleship":
+                        currentShip = new Battleship(placeHolder);
+                        break;
+                    case "Cruiser":
+                        currentShip = new Cruiser(placeHolder);
+                        break;
+                    case "Submarine":
+                        currentShip = new Submarine(placeHolder);
+                        break;
+                    case "Destroyer":
+                        currentShip = new Destroyer(placeHolder);
+                        break;
+                    case "Game On":
+                        yourTurn = false;
+                        break;
+                }
+                initCurrentShip(currentShip);
+            }
         }
     }
-    public boolean checkIfDataExistsForSaving(){
 
-        return false;
+    void test(GameBoard gameBoard){
+        gameBoard.disableLeftButtons();
+
     }
 
-    public void placeYourShip(String placeHolder){
+    void initCurrentShip(Ship currentShip) {
+        if(placeHolder.equals("Game On")){
+            //-----------------------------
+            // opponentsTurn();
+            //-----------------------------
+        }else {
+            currentShip.placement[0] = -1;
+            placeYourShip(currentShip);
+        }
+    }
 
-        Ship currentShip = new Carrier(placeHolder);
-        if(userDialogueShip(currentShip) == 0){ //chose 'OK'
-            //start placing ship
-        } else {
-           quitGame(currentShip);
+
+    void placeYourShip(Ship currentShip){
+        if(currentShip.placement[0] < 0){
+            userDialogueShip(currentShip);
+        }
+        else {
+            //placeHolder = currentShip.getShipType();
+            // standby for userInput. (currentShip seized to exist)
         }
 
 
     }
 
-    public int userDialogueShip(Ship currentShip) {
+    void userDialogueShip(Ship currentShip) {
         JOptionPane pane = new JOptionPane();
-        return JOptionPane.showConfirmDialog(pane, "Place your " + currentShip.shipType + "\n Vertically or horizontally only\n Size: " + currentShip.getShipLength() + " squares", "Place Battleships", JOptionPane.OK_CANCEL_OPTION);
-        //if (choice == 2 || choice == JOptionPane.CLOSED_OPTION) {
-        //    quitGame(currentShip);
-        //} else {
-        //    placeYourShip(currentShip.getShipType());
-        //}
+        int choice = JOptionPane.showConfirmDialog(pane, "Place your " + currentShip.shipType + "\n Vertically or horizontally only\n Size: " + currentShip.getShipLength() + " squares", "Welcome " + players[1], JOptionPane.OK_CANCEL_OPTION);
+        if (choice == 2 || choice == JOptionPane.CLOSED_OPTION) {
+            quitGame(currentShip);
+        } else {
+            currentShip.placement[0] = 0;
+            placeYourShip(currentShip);
+        }
     }
 
     void quitGame(Ship currentShip) {
@@ -91,16 +160,23 @@ public class Game {
             GameData gameData = new GameData();
             gameData.saveGameData(this, currentShip);
         } else {
-            if(currentShip.getShipType().equals("Carrier")){
-                userDialogueShip(currentShip);
-            }
+                placeYourShip(currentShip);
         }
     }
 
-    private void initSavedGame() {
-        //gameData = new GameData();
-        //gameData.loadSavedGameData();
+    void opponentsTurn(){
+
+
+
+
+
     }
+
+
+
+
+
+
 
 
     public static void main(String[] args) {

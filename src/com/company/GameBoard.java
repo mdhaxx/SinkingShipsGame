@@ -13,8 +13,8 @@ import java.awt.event.WindowEvent;
 public class GameBoard implements ActionListener {
 
     private final JFrame frame = new JFrame();
-    private final JButton[] leftB = new JButton[101];
-    private final JButton[] rightB = new JButton[101];
+    private final JButton[] leftB = new JButton[102];
+    private final JButton[] rightB = new JButton[102];
     private final JLabel leftHL = new JLabel("Your field");
     private final JLabel rightHL = new JLabel("Opponents field");
     private final JLabel midLine = new JLabel();
@@ -41,9 +41,9 @@ public class GameBoard implements ActionListener {
     private Game game;
 
 
-    public GameBoard(Game game) {
+    GameBoard(Game game) {
         this.game = game;
-        initGameBoard();
+
 
     }
 
@@ -70,6 +70,11 @@ public class GameBoard implements ActionListener {
         });
     }
 
+    void disableLeftButtons() {
+        for(int i = 1; i <= 100; i++) {
+            leftB[i].setEnabled(false);
+        }
+    }
 
     public int whichRowColor(int index) {
         if ((index % 10) == 0) {
@@ -135,6 +140,24 @@ public class GameBoard implements ActionListener {
 
         for (int i = 0; i < 100; i = i + 10) {
             for (int j = 1; j <= 10; j++) {
+                leftB[j + i] = new JButton();
+                leftB[j + i].setBounds(width, height, 44, 44);
+                leftB[j + i].setEnabled(true);
+                leftB[j + i].setBackground(new Color(0, 0, 180 - (15 * x)));
+                leftB[j + i].setText("leftB" + (i + j));
+                leftB[j + i].setForeground(new Color(0, 0, 180 - (15 * x)));
+                frame.add(leftB[i + j]);
+                leftB[j + i].addActionListener(this);
+                width = width + 44;
+            }
+            width = 79;
+            height = height + 44;
+            x++;
+        }
+
+        /*
+               for (int i = 0; i < 100; i = i + 10) {
+            for (int j = 1; j <= 10; j++) {
                 leftB[i + j] = new JButton();
                 leftB[i + j].setBounds(width, height, 44, 44);
                 leftB[i + j].setEnabled(true);
@@ -142,12 +165,14 @@ public class GameBoard implements ActionListener {
                 leftB[i + j].setText("leftB" + (i + j));
                 leftB[i + j].setForeground(new Color(0, 0, 180 - (15 * x)));
                 frame.add(leftB[i + j]);
+                leftB[i + j].addActionListener(this);
                 width = width + 44;
             }
             width = 79;
             height = height + 44;
             x++;
         }
+         */
     }
 
     void printMidLine() {
@@ -227,11 +252,16 @@ public class GameBoard implements ActionListener {
             x++;
         }
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        //game.nånMetod(e.getActionCommand());
+        if(game.getYourTurn() == false){
+            game.test(this);
+        }
+
+        game.whereAreWe(e.getActionCommand());
+
     }
+
 }
 
 

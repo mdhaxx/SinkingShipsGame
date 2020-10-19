@@ -59,5 +59,16 @@ class GameData {
         }
     }
 
+    public boolean checkIfDataExistsForSaving(){
+
+        return false;
+    }
+
+    private void initSavedGame() {
+        //gameData = new GameData();
+        //gameData.loadSavedGameData();
+    }
+
+
          */
 }

@@ -44,7 +44,7 @@ public class GamePlayer extends Frame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(!yourName.getText().equals("Enter your name, please!")) {
             game.setInputPlayer(yourName.getText(), 1);
-            System.out.println(game.getInputPlayer(1));
+                                                    System.out.println(game.getInputPlayer(1));
             game.returnFromGamePlayer(this, game);
         }
 
