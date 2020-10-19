@@ -1,0 +1,35 @@
+
+Denna skrivs på svenska för enkelhetens skull. Resten av programmet kommer att vara på engelska.
+
+Projektet går ut på att bygga ett sänka skepp spel. Till en början singleplayer men tanken
+är att kunna även köra multiplayer senare om tid finnes. Till en början görs spelet som ett konsol-spel
+men utökas med GUI om tid finns.
+
+- Regler för spelet behöver sättas.
+- spelplanen ska ritas upp i terminalen för var ändring som sker.
+- Spelaren intitialt ska placera ut sina skepp. Dessa ska sparas som koordinater i en fil
+  (möjligen krypterat)
+- spelplanen kommer att finnas i en egen fil
+- "skotten" ska jämnföras med spelarens egna skeppskoordinater för att avgöra om det är träff eller ej.
+- vid avslutande av spelet ställa frågan om man spara ej avslutat spel och i så fall spara ner infon till fil.
+- vid start läsa in ev info från och fråga om påbörjat spel ska fortsättas? annars nytt
+- ljud vid bom/träff samt vinst/förlust.
+- Interface för skeppen. blå/röd färg.längd.
+
+
+- spelplanen ska bestå av två rutnät som är 10 x 10
+- main för att placera ut dina skepp och motspelarens skott
+- secund    public void testIfGameIsSaved() {ary för att placera ut spelarens skott
+- namn och storlek på skepp som ska placeras ut ser du nedan.
+  No.	Class of ship	Size
+  1	  Carrier	        5
+  2	  Battleship	    4
+  3	  Cruiser	        3
+  4	  Submarine 	    3
+  5	  Destroyer	        2
+- skeppen placeras ut antigen horisontellt eller vertikalt och får inte överlappa varandra
+  och inte vara diagonalt. kontrolleras via exceptions?
+- varannat skott. träff och bom markeras på respektive rutnät (vitt/o för bom och rött/x för träff)
+- skepp markeras upp med rött # vid träff med rött x. andra skott med svart o för bom.
+- När en spelare sänkt motståndarens alla skepp och rundan är avslutad så har den vunnit.
+- Om båda spelarna sänkt alla skepp under samma runda blir det oavgjort.
