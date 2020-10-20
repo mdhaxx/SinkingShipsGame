@@ -1,14 +1,19 @@
 package com.company;
 
-public class Carrier extends Ship {
+class Carrier implements Ship {
 
-    public Carrier(String shipType){
-        super(shipType);
-        this.shipNumber = 1;
-        this.shipLength = 5;
-        this.placement = new int[shipLength];
+    private String shipType;
+    private final int shipNumber = 1;
+    private final int shipLength = 5;
+    private boolean initNewShip = true;
 
-    }
+    public Carrier(String shipType){  }
 
+    public void setShipType(String shipType){ this.shipType = shipType; }
+    public String getShipType(){ return this.shipType; }
+    public int getShipNumber(){ return this.shipNumber; }
+    public int getShipLength(){ return this.shipLength; }
+    public boolean getInitNewShip(){ return this.initNewShip; }
+    public void setInitNewShip(boolean initial){ this.initNewShip = initial; }
 
 }

@@ -30,12 +30,8 @@ public class Game {
         GameBoard gameBoard = new GameBoard(this);
         gameBoard.initGameBoard();
         GamePlayer gameplayer = new GamePlayer(this);
+        GameProgress gameprogress = new GameProgress(this);
 
-
-
-        //initPlayers(gameplay);
-        //initGamePlay();
-        //if(previousGameIsSaved) { initSavedGame(); }
     }
 
     public void setInputPlayer(String name, int index){ this.players[index] = name;}
@@ -78,15 +74,15 @@ public class Game {
                     currentShip = new Destroyer(placeHolder);
                     break;
             }
-            leftGrid[Integer.parseInt(actionCommand.substring(5))][0] = currentShip.shipNumber;
+            leftGrid[Integer.parseInt(actionCommand.substring(5))][0] = currentShip.getShipNumber();
             ArrayList<Integer> listCounter = new ArrayList<>();
             for(int i = 0; i <= 100; i++){
-                if(leftGrid[i][0] == currentShip.shipNumber){
+                if(leftGrid[i][0] == currentShip.getShipNumber()){
                     listCounter.add(leftGrid[i][0]);
                 }
             }
-            if(listCounter.size() == currentShip.shipLength) {
-                placeHolder = placedAtGridPosition[currentShip.shipNumber + 1];
+            if(listCounter.size() == currentShip.getShipLength()) {
+                placeHolder = placedAtGridPosition[currentShip.getShipNumber() + 1];
                 currentShip = new Carrier(placeHolder);
                 switch (placeHolder) {
                     case "Carrier":
@@ -123,14 +119,14 @@ public class Game {
             // opponentsTurn();
             //-----------------------------
         }else {
-            currentShip.placement[0] = -1;
+            currentShip.setInitNewShip(true);
             placeYourShip(currentShip);
         }
     }
 
 
     void placeYourShip(Ship currentShip){
-        if(currentShip.placement[0] < 0){
+        if(currentShip.getInitNewShip()){
             userDialogueShip(currentShip);
         }
         else {
@@ -143,11 +139,11 @@ public class Game {
 
     void userDialogueShip(Ship currentShip) {
         JOptionPane pane = new JOptionPane();
-        int choice = JOptionPane.showConfirmDialog(pane, "Place your " + currentShip.shipType + "\n Vertically or horizontally only\n Size: " + currentShip.getShipLength() + " squares", "Welcome " + players[1], JOptionPane.OK_CANCEL_OPTION);
+        int choice = JOptionPane.showConfirmDialog(pane, "Place your " + currentShip.getShipType() + "\n Vertically or horizontally only\n Size: " + currentShip.getShipLength() + " squares", "Welcome " + players[1], JOptionPane.OK_CANCEL_OPTION);
         if (choice == 2 || choice == JOptionPane.CLOSED_OPTION) {
             quitGame(currentShip);
         } else {
-            currentShip.placement[0] = 0;
+            currentShip.setInitNewShip(false);
             placeYourShip(currentShip);
         }
     }

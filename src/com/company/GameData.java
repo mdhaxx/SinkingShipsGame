@@ -8,21 +8,20 @@ import java.util.Scanner;
 class GameData {
 
     public void saveGameData(Game game, Ship currentShip) {
-        if (currentShip.shipType.equals("Carrier")) {
+        if (currentShip.getShipType().equals("Carrier")) {
             JOptionPane noGame = new JOptionPane();
             JOptionPane.showMessageDialog(noGame, "There is no game to save!", "No game", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         } else {
 
 
-            if (currentShip.shipType.equals("Carrier")) {
+            if (currentShip.getShipType().equals("Carrier")) {
                 for (int i = 0; i < currentShip.getShipLength(); i++) {
-                    if (currentShip.placement[i] == 0) {
+                    if (!currentShip.getInitNewShip()) {
                         break;
                     }
                 }
             }
-
 
             //här ska vi spara ner data till fil.
             System.exit(0);

@@ -22,6 +22,7 @@ public class GamePlayer extends Frame implements ActionListener {
         yourName.setBounds(10, 170, 100, 40);
         yourName.addActionListener(this);
 
+
         JButton submitButton = new JButton("Submit");
         submitButton.setBounds(20,220,800, 80);
         submitButton.addActionListener(this);
@@ -31,20 +32,20 @@ public class GamePlayer extends Frame implements ActionListener {
         setLocationRelativeTo(null);
 
         add(textArea, BorderLayout.NORTH);
-        add(yourName, FlowLayout.CENTER);
+        add(yourName, BorderLayout.CENTER);
         add(submitButton, BorderLayout.SOUTH);
 
         pack();
         setVisible(true);
 
         repaint();
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(!yourName.getText().equals("Enter your name, please!")) {
             game.setInputPlayer(yourName.getText(), 1);
-                                                    System.out.println(game.getInputPlayer(1));
             game.returnFromGamePlayer(this, game);
         }
 

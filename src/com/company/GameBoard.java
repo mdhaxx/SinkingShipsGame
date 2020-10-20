@@ -13,8 +13,8 @@ import java.awt.event.WindowEvent;
 public class GameBoard implements ActionListener {
 
     private final JFrame frame = new JFrame();
-    private final JButton[] leftB = new JButton[102];
-    private final JButton[] rightB = new JButton[102];
+    private final JButton[] leftB = new JButton[101];
+    private final JButton[] rightB = new JButton[101];
     private final JLabel leftHL = new JLabel("Your field");
     private final JLabel rightHL = new JLabel("Opponents field");
     private final JLabel midLine = new JLabel();
@@ -137,6 +137,16 @@ public class GameBoard implements ActionListener {
         int width = 79;
         int height = 79;
         int x = 1;
+/*
+        for (int height = 0; height < 10; height++) {
+            for (int width = 1; width <= 10; width++) {
+                knappNr = (height * 10) + width;
+            }
+        }
+
+*/
+
+
 
         for (int i = 0; i < 100; i = i + 10) {
             for (int j = 1; j <= 10; j++) {
@@ -154,25 +164,6 @@ public class GameBoard implements ActionListener {
             height = height + 44;
             x++;
         }
-
-        /*
-               for (int i = 0; i < 100; i = i + 10) {
-            for (int j = 1; j <= 10; j++) {
-                leftB[i + j] = new JButton();
-                leftB[i + j].setBounds(width, height, 44, 44);
-                leftB[i + j].setEnabled(true);
-                leftB[i + j].setBackground(new Color(0, 0, 180 - (15 * x)));
-                leftB[i + j].setText("leftB" + (i + j));
-                leftB[i + j].setForeground(new Color(0, 0, 180 - (15 * x)));
-                frame.add(leftB[i + j]);
-                leftB[i + j].addActionListener(this);
-                width = width + 44;
-            }
-            width = 79;
-            height = height + 44;
-            x++;
-        }
-         */
     }
 
     void printMidLine() {
@@ -254,12 +245,7 @@ public class GameBoard implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(game.getYourTurn() == false){
-            game.test(this);
-        }
-
         game.whereAreWe(e.getActionCommand());
-
     }
 
 }
