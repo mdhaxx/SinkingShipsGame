@@ -39,14 +39,13 @@ public class GamePlayer extends Frame implements ActionListener {
         setVisible(true);
 
         repaint();
-
+        game.setPlaceHolder("gamePlayer");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(!yourName.getText().equals("Enter your name, please!")) {
-            game.setInputPlayer(yourName.getText(), 1);
-            game.returnFromGamePlayer(this, game);
+            game.returnFromGamePlayer(this, yourName.getText());
         }
 
     }

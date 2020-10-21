@@ -37,6 +37,9 @@ public class Game {
     public void setInputPlayer(String name, int index){ this.players[index] = name;}
     public String getInputPlayer(int index){ return this.players[index];}
 
+    public void setPlaceHolder(String placeHolder){ this.placeHolder = placeHolder;}
+    public String getPlaceHolder(){ return this.placeHolder;}
+
     public void setLeftGridValue(int indexI, int indexJ, int value){ this.leftGrid[indexI][indexJ] = value;}
     public int setLeftGridValue(int indexI, int indexJ){ return this.leftGrid[indexI][indexJ];}
 
@@ -47,8 +50,9 @@ public class Game {
     public boolean getYourTurn(){ return this.yourTurn; }
 
 
-    void returnFromGamePlayer(GamePlayer gamePlayer, Game game) {
+    void returnFromGamePlayer(GamePlayer gamePlayer, String name) {
         gamePlayer.dispose();
+        this.players[1] = name;
         whereAreWe("");
     }
 

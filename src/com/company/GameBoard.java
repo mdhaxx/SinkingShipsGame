@@ -62,6 +62,7 @@ public class GameBoard implements ActionListener {
         //gameProgress.setColors();
 
         frame.repaint();
+        game.setPlaceHolder("gameBoard");
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
