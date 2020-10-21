@@ -14,7 +14,7 @@ public class GamePlayer extends Frame implements ActionListener {
         this.game = game;
 
         JTextArea textArea = new JTextArea("text");
-        textArea.setText("Hello!\nMy name is " + game.getInputPlayer(0) + "\nand I will be your opponent\nfor this game.\n\nAnd who might you be?");
+        textArea.setText("Hello!\nMy name is " + game.getNameOfPlayer(0) + "\nand I will be your opponent\nfor this game.\n\nAnd who might you be?");
         textArea.setFont(new Font("Verdana", Font.BOLD, 18));
         textArea.setBounds(10, 10, 100, 160);
 
@@ -28,7 +28,7 @@ public class GamePlayer extends Frame implements ActionListener {
         submitButton.addActionListener(this);
 
         setSize(400, 400);
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(0,5));
         setLocationRelativeTo(null);
 
         add(textArea, BorderLayout.NORTH);
@@ -39,7 +39,7 @@ public class GamePlayer extends Frame implements ActionListener {
         setVisible(true);
 
         repaint();
-        game.setPlaceHolder("gamePlayer");
+        game.setPlaceHolder("GamePlayer");
     }
 
     @Override

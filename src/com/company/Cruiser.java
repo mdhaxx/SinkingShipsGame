@@ -2,17 +2,18 @@ package com.company;
 
 public class Cruiser implements Ship {
 
-    private String shipType;
+    private final String shipType = "Cruiser";
     private final int shipNumber = 3;
     private final int shipLength = 3;
-    private boolean initNewShip = true;
+    private static String shipAlignment = "";
 
-    public Cruiser(String shipType){  }
 
-    public void setShipType(String shipType){ this.shipType = shipType; }
+    public Cruiser(){  }
+
     public String getShipType(){ return this.shipType; }
     public int getShipNumber(){ return this.shipNumber; }
     public int getShipLength(){ return this.shipLength; }
-    public boolean getInitNewShip(){ return this.initNewShip; }
-    public void setInitNewShip(boolean initial){ this.initNewShip = initial; }
+    public String getShipAlignment(){ return this.shipAlignment; }
+    public void setShipAlignment(String alignment){ this.shipAlignment = alignment; }
+
 }

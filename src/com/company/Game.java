@@ -1,11 +1,7 @@
 package com.company;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -24,27 +20,29 @@ public class Game {
     private File file;
     private FileWriter fileWriter;
 
+    private final GameBoard gameBoard;
 
     private Game() {
 
-        GameBoard gameBoard = new GameBoard(this);
+        gameBoard = new GameBoard(this);
         gameBoard.initGameBoard();
         GamePlayer gameplayer = new GamePlayer(this);
-        GameProgress gameprogress = new GameProgress(this);
+
 
     }
+    public String getPlacedAtGridPosition(int index) { return this.placedAtGridPosition[index]; }
 
-    public void setInputPlayer(String name, int index){ this.players[index] = name;}
-    public String getInputPlayer(int index){ return this.players[index];}
+    public void setPlayerNameFromInput(String name, int index){ this.players[index] = name;}
+    public String getNameOfPlayer(int index){ return this.players[index];}
 
     public void setPlaceHolder(String placeHolder){ this.placeHolder = placeHolder;}
     public String getPlaceHolder(){ return this.placeHolder;}
 
     public void setLeftGridValue(int indexI, int indexJ, int value){ this.leftGrid[indexI][indexJ] = value;}
-    public int setLeftGridValue(int indexI, int indexJ){ return this.leftGrid[indexI][indexJ];}
+    public int getLeftGridValue(int indexI, int indexJ){ return this.leftGrid[indexI][indexJ];}
 
     public void setRightGridValue(int indexI, int indexJ, int value){ this.leftGrid[indexI][indexJ] = value;}
-    public int setRightGridValue(int indexI, int indexJ){ return this.leftGrid[indexI][indexJ];}
+    public int getRightGridValue(int indexI, int indexJ){ return this.leftGrid[indexI][indexJ];}
 
     public void setYourTurn(){ this.yourTurn = !this.getYourTurn(); }
     public boolean getYourTurn(){ return this.yourTurn; }
@@ -53,10 +51,15 @@ public class Game {
     void returnFromGamePlayer(GamePlayer gamePlayer, String name) {
         gamePlayer.dispose();
         this.players[1] = name;
-        whereAreWe("");
+        nextAction("");
     }
 
-    void whereAreWe(String actionCommand) {
+    void nextAction(String actionCommand) {
+        GameProgress gameprogress = new GameProgress(this, gameBoard);
+        gameprogress.actionCase(actionCommand);
+    }
+
+/*
         if (actionCommand.equals("")) {
             Ship currentShip = new Carrier(placedAtGridPosition[1]);
             initCurrentShip(currentShip);
@@ -112,6 +115,8 @@ public class Game {
         }
     }
 
+
+ */
     void test(GameBoard gameBoard){
         gameBoard.disableLeftButtons();
 
@@ -123,46 +128,11 @@ public class Game {
             // opponentsTurn();
             //-----------------------------
         }else {
-            currentShip.setInitNewShip(true);
-            placeYourShip(currentShip);
+            //currentShip.setInitNewShip(true);
+            //placeYourShip(currentShip);
         }
     }
 
-
-    void placeYourShip(Ship currentShip){
-        if(currentShip.getInitNewShip()){
-            userDialogueShip(currentShip);
-        }
-        else {
-            //placeHolder = currentShip.getShipType();
-            // standby for userInput. (currentShip seized to exist)
-        }
-
-
-    }
-
-    void userDialogueShip(Ship currentShip) {
-        JOptionPane pane = new JOptionPane();
-        int choice = JOptionPane.showConfirmDialog(pane, "Place your " + currentShip.getShipType() + "\n Vertically or horizontally only\n Size: " + currentShip.getShipLength() + " squares", "Welcome " + players[1], JOptionPane.OK_CANCEL_OPTION);
-        if (choice == 2 || choice == JOptionPane.CLOSED_OPTION) {
-            quitGame(currentShip);
-        } else {
-            currentShip.setInitNewShip(false);
-            placeYourShip(currentShip);
-        }
-    }
-
-    void quitGame(Ship currentShip) {
-        JOptionPane quitGame = new JOptionPane();
-        Object[] options = {"Yes, quit and save", "No, continue playing"};
-        int choice = JOptionPane.showOptionDialog(quitGame, "Do you want to exit the game", "Quit game", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-        if (choice == 0) {
-            GameData gameData = new GameData();
-            gameData.saveGameData(this, currentShip);
-        } else {
-                placeYourShip(currentShip);
-        }
-    }
 
     void opponentsTurn(){
 
@@ -182,6 +152,7 @@ public class Game {
     public static void main(String[] args) {
         new Game();
     }
+
 
 }
 
