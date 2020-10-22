@@ -1,8 +1,10 @@
 package com.company;
 
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
-
+import java.io.File;
 
 
 public class GameProgress {
@@ -92,7 +94,7 @@ public class GameProgress {
                     game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
                     actionCase("");
                 }
-            }
+            } else { makeSomeNoise("meep.wav"); }
         } else {
             if(Integer.parseInt(actionCommand.substring(actionCommand.length()-1)) <= ((10-currentShip.getShipLength())+1)) {
                 boolean empty = true;
@@ -111,6 +113,24 @@ public class GameProgress {
                     actionCase("");
                 }
             }
+        }
+    }
+
+    void makeSomeNoise(String audioClip){
+        try
+        {
+            Clip clip = AudioSystem.getClip();
+            clip.open(AudioSystem.getAudioInputStream(new File("./gameData/sound/" + audioClip)));
+            clip.start();
+            while (!clip.isRunning())
+                Thread.sleep(10);
+            while (clip.isRunning())
+                Thread.sleep(10);
+            clip.close();
+        }
+        catch (Exception eAudio)
+        {
+            System.out.println(eAudio);;
         }
     }
 
