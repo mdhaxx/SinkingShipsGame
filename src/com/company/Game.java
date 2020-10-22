@@ -8,7 +8,7 @@ public class Game {
 
     private int[][] leftGrid = new int[101][2];
     private int[][] rightGrid = new int[101][2];
-    private String[] players = {"Admiral BigShot", ""};
+    private String[] players = new String[2];
     private String[] placedAtGridPosition = { "Water", "Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer", "Game On" };
 
     private boolean yourTurn = true;
@@ -26,6 +26,7 @@ public class Game {
 
         gameBoard = new GameBoard(this);
         gameBoard.initGameBoard();
+        GameOpponent gameOpponent = new GameOpponent(this);
         GamePlayer gameplayer = new GamePlayer(this);
 
 
@@ -48,7 +49,7 @@ public class Game {
     public boolean getYourTurn(){ return this.yourTurn; }
 
 
-    void returnFromGamePlayer(GamePlayer gamePlayer, String name) {
+    void redirectFromGamePlayer(GamePlayer gamePlayer, String name) {
         gamePlayer.dispose();
         this.players[1] = name;
         nextAction("");
@@ -59,100 +60,7 @@ public class Game {
         gameprogress.actionCase(actionCommand);
     }
 
-/*
-        if (actionCommand.equals("")) {
-            Ship currentShip = new Carrier(placedAtGridPosition[1]);
-            initCurrentShip(currentShip);
-        } else if(actionCommand.charAt(0) == 'l'){
-            Ship currentShip = new Carrier(placeHolder);
-            switch (placeHolder) {
-                case "Carrier":
-                    break;
-                case "Battleship":
-                    currentShip = new Battleship(placeHolder);
-                    break;
-                case "Cruiser":
-                    currentShip = new Cruiser(placeHolder);
-                    break;
-                case "Submarine":
-                    currentShip = new Submarine(placeHolder);
-                    break;
-                case "Destroyer":
-                    currentShip = new Destroyer(placeHolder);
-                    break;
-            }
-            leftGrid[Integer.parseInt(actionCommand.substring(5))][0] = currentShip.getShipNumber();
-            ArrayList<Integer> listCounter = new ArrayList<>();
-            for(int i = 0; i <= 100; i++){
-                if(leftGrid[i][0] == currentShip.getShipNumber()){
-                    listCounter.add(leftGrid[i][0]);
-                }
-            }
-            if(listCounter.size() == currentShip.getShipLength()) {
-                placeHolder = placedAtGridPosition[currentShip.getShipNumber() + 1];
-                currentShip = new Carrier(placeHolder);
-                switch (placeHolder) {
-                    case "Carrier":
-                        break;
-                    case "Battleship":
-                        currentShip = new Battleship(placeHolder);
-                        break;
-                    case "Cruiser":
-                        currentShip = new Cruiser(placeHolder);
-                        break;
-                    case "Submarine":
-                        currentShip = new Submarine(placeHolder);
-                        break;
-                    case "Destroyer":
-                        currentShip = new Destroyer(placeHolder);
-                        break;
-                    case "Game On":
-                        yourTurn = false;
-                        break;
-                }
-                initCurrentShip(currentShip);
-            }
-        }
-    }
-
-
- */
-    void test(GameBoard gameBoard){
-        gameBoard.disableLeftButtons();
-
-    }
-
-    void initCurrentShip(Ship currentShip) {
-        if(placeHolder.equals("Game On")){
-            //-----------------------------
-            // opponentsTurn();
-            //-----------------------------
-        }else {
-            //currentShip.setInitNewShip(true);
-            //placeYourShip(currentShip);
-        }
-    }
-
-
-    void opponentsTurn(){
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-
-    public static void main(String[] args) {
-        new Game();
-    }
-
+    public static void main(String[] args) { new Game(); }
 
 }
 

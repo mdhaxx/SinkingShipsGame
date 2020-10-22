@@ -17,7 +17,7 @@ public class GameBoard implements ActionListener {
 
     private final JFrame frame = new JFrame();
     final JButton[] leftB = new JButton[101];
-    private final JButton[] rightB = new JButton[101];
+    final JButton[] rightB = new JButton[101];
     private final JLabel leftHL = new JLabel("Your field");
     private final JLabel rightHL = new JLabel("Opponents field");
     private final JLabel midLine = new JLabel();

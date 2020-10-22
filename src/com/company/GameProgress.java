@@ -45,6 +45,13 @@ public class GameProgress {
                 caseAction(currentShip, actionCommand);
             }
             case "Game On" -> {
+                game.setYourTurn();
+                gameBoard.disableLeftButtons();
+                GameOpponent gameOpponent = new GameOpponent(game);
+                placeOpponentsShip();
+                infoBox("All your ships have been placed\n\nGame is on!");
+
+
             }
         }
     }
@@ -76,7 +83,36 @@ public class GameProgress {
         }
     }
 
-    void placeYourShip(Ship currentShip, String actionCommand) {
+    void infoBox(String textMessage) {
+        JOptionPane text = new JOptionPane();
+        JOptionPane.showMessageDialog(text, textMessage, "Info", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    void placeShipVertically(Ship currentShip, int placement) {
+            if (placement <= 60 + ((5 - currentShip.getShipLength()) * 10)) {
+                boolean empty = true;
+                for (int i = placement; i < (placement + (currentShip.getShipLength() * 10)); i = i + 10) {
+                    if (game.getRightGridValue(i, 0) != 0) {
+                        empty = false;
+                    }
+                }
+                if (empty) {
+                    for (int i = placement; i < (placement + (currentShip.getShipLength() * 10)); i = i + 10) {
+                        game.setRightGridValue(i, 0, currentShip.getShipNumber());
+                        gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
+                        //remove color later
+                    }
+                    game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
+                    actionCase("");
+
+
+                }
+            } else {
+                makeSomeNoise("message.wav");
+            }
+    }
+
+        void placeYourShip(Ship currentShip, String actionCommand) {
         if(currentShip.getShipAlignment().equals("Vertical")) {
             if(Integer.parseInt(actionCommand.substring(5)) <= 60 + ((5-currentShip.getShipLength())*10)) {
                 boolean empty = true;
@@ -116,6 +152,18 @@ public class GameProgress {
         }
     }
 
+    void placeOpponentsShip() {
+        int alignment = (int)Math.round(Math.random());
+        int placement = (int)Math.random()*100+1;
+        leftB[placement]
+
+        if (alignment == 0) {
+
+        } else {
+
+        }
+    }
+
     void makeSomeNoise(String audioClip){
         try
         {
@@ -133,5 +181,4 @@ public class GameProgress {
             System.out.println(eAudio);
         }
     }
-
 }

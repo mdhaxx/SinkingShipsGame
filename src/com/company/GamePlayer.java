@@ -12,7 +12,10 @@ public class GamePlayer extends Frame implements ActionListener {
 
     GamePlayer(Game game) {
         this.game = game;
+        setYourNameDialogue();
+    }
 
+    void setYourNameDialogue() {
         JTextArea textArea = new JTextArea("text");
         textArea.setText("Hello!\nMy name is " + game.getNameOfPlayer(0) + "\nand I will be your opponent\nfor this game.\n\nAnd who might you be?");
         textArea.setFont(new Font("Verdana", Font.BOLD, 18));
@@ -45,7 +48,7 @@ public class GamePlayer extends Frame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(!yourName.getText().equals("Enter your name, please!")) {
-            game.returnFromGamePlayer(this, yourName.getText());
+            game.redirectFromGamePlayer(this, yourName.getText());
         }
 
     }
