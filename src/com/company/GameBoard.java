@@ -38,8 +38,8 @@ public class GameBoard implements ActionListener {
     private final Color shipFloating = new Color(45, 149, 63, 255);
     private final Color shipSunk = new Color(179, 11, 11);
 
-    private final ImageIcon hit = new ImageIcon("progData/images/hit3.png");
-    private final ImageIcon noHit = new ImageIcon("progData/images/dropp.png");
+    private final ImageIcon hit = new ImageIcon("gameData/images/hit3.png");
+    private final ImageIcon noHit = new ImageIcon("gameData/images/drop.png");
 
     private Game game;
 
@@ -52,6 +52,10 @@ public class GameBoard implements ActionListener {
 
     Color getShipFloating() { return shipFloating; }
     Color getShipSunk() { return shipSunk; }
+
+
+    public ImageIcon getNoHit() { return this.noHit; }
+    public ImageIcon getHit() { return this.hit; }
 
 
     void initGameBoard() {
@@ -81,6 +85,12 @@ public class GameBoard implements ActionListener {
     void disableLeftButtons() {
         for(int i = 1; i <= 100; i++) {
             leftB[i].setEnabled(false);
+        }
+    }
+
+    void enableRightButtons(boolean state) {
+        for(int i = 1; i <= 100; i++) {
+            rightB[i].setEnabled(state);
         }
     }
 
@@ -256,6 +266,5 @@ public class GameBoard implements ActionListener {
 
             game.nextAction(e.getActionCommand());
     }
-
 
 }

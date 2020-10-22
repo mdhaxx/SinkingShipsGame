@@ -5,11 +5,21 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 
-public class GameProgress {
+public class GameProgress implements Runnable {
     private final Game game;
     private final GameBoard gameBoard;
+    private Thread thread;
+    private String threadName = "laugh";
+    private static int lastHit;
+    private static int yourHit;
+    private static int yourNoHit;
+    private static int opponentHit;
+    private static int opponentNoHit;
+
+
 
     GameProgress(Game game, GameBoard gameBoard) {
         this.game = game;
@@ -20,6 +30,7 @@ public class GameProgress {
         Ship currentShip;
         switch (game.getPlaceHolder()) {
             case "GamePlayer" -> {
+                gameBoard.enableRightButtons(false);
                 game.setPlaceHolder("Carrier");
                 currentShip = new Carrier();
                 userDialogueInitShip(currentShip);
@@ -47,9 +58,11 @@ public class GameProgress {
             case "Game On" -> {
                 game.setYourTurn();
                 gameBoard.disableLeftButtons();
+                game.setPlaceHolder("Carrier");
                 GameOpponent gameOpponent = new GameOpponent(game);
+                infoBox("All your ships have been placed!");
                 placeOpponentsShip();
-                infoBox("All your ships have been placed\n\nGame is on!");
+
 
 
             }
@@ -83,85 +96,250 @@ public class GameProgress {
         }
     }
 
-    void infoBox(String textMessage) {
-        JOptionPane text = new JOptionPane();
-        JOptionPane.showMessageDialog(text, textMessage, "Info", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    void placeShipVertically(Ship currentShip, int placement) {
-            if (placement <= 60 + ((5 - currentShip.getShipLength()) * 10)) {
-                boolean empty = true;
-                for (int i = placement; i < (placement + (currentShip.getShipLength() * 10)); i = i + 10) {
-                    if (game.getRightGridValue(i, 0) != 0) {
-                        empty = false;
-                    }
-                }
-                if (empty) {
-                    for (int i = placement; i < (placement + (currentShip.getShipLength() * 10)); i = i + 10) {
-                        game.setRightGridValue(i, 0, currentShip.getShipNumber());
-                        gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
-                        //remove color later
-                    }
-                    game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
-                    actionCase("");
-
-
-                }
-            } else {
-                makeSomeNoise("message.wav");
-            }
-    }
-
-        void placeYourShip(Ship currentShip, String actionCommand) {
+    void placeYourShip(Ship currentShip, String actionCommand) {
         if(currentShip.getShipAlignment().equals("Vertical")) {
-            if(Integer.parseInt(actionCommand.substring(5)) <= 60 + ((5-currentShip.getShipLength())*10)) {
-                boolean empty = true;
-                for (int i = Integer.parseInt(actionCommand.substring(5)); i < (Integer.parseInt(actionCommand.substring(5)) + (currentShip.getShipLength() * 10)); i = i + 10) {
-                    if (game.getLeftGridValue(i, 0) != 0) {
-                        empty = false;
-                    }
-                }
-                if (empty) {
-                    for (int i = Integer.parseInt(actionCommand.substring(5)); i < (Integer.parseInt(actionCommand.substring(5)) + (currentShip.getShipLength() * 10)); i = i + 10) {
-                        game.setLeftGridValue(i, 0, currentShip.getShipNumber());
-                        gameBoard.leftB[i].setBackground(gameBoard.getShipFloating());
-                        gameBoard.leftB[i].setEnabled(false);
-                    }
-                    game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
-                    actionCase("");
-                }
-            } else { makeSomeNoise("message.wav"); }
+            placeYourShipVertically(currentShip, actionCommand);
         } else {
-            if(Integer.parseInt(actionCommand.substring(actionCommand.length()-1)) <= ((10-currentShip.getShipLength())+1) && Integer.parseInt(actionCommand.substring(actionCommand.length()-1)) != 0)  {
-                boolean empty = true;
-                for (int i = Integer.parseInt(actionCommand.substring(5)); i < (Integer.parseInt(actionCommand.substring(5)) + (currentShip.getShipLength())); i++) {
-                    if (game.getLeftGridValue(i, 0) != 0) {
-                        empty = false;
-                    }
-                }
-                if (empty) {
-                    for (int i = Integer.parseInt(actionCommand.substring(5)); i < (Integer.parseInt(actionCommand.substring(5)) + (currentShip.getShipLength())); i++) {
-                        game.setLeftGridValue(i, 0, currentShip.getShipNumber());
-                        gameBoard.leftB[i].setBackground(gameBoard.getShipFloating());
-                        gameBoard.leftB[i].setEnabled(false);
-                    }
-                    game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
-                    actionCase("");
-                }
-            } else { makeSomeNoise("message.wav"); }
+            placeYourShipHorizontally(currentShip, actionCommand);
         }
+    }
+
+    void placeYourShipVertically(Ship currentShip, String actionCommand) {
+        if(Integer.parseInt(actionCommand.substring(5)) <= 60 + ((5-currentShip.getShipLength())*10)) {
+            boolean empty = true;
+            for (int i = Integer.parseInt(actionCommand.substring(5)); i < (Integer.parseInt(actionCommand.substring(5)) + (currentShip.getShipLength() * 10)); i = i + 10) {
+                if (game.getLeftGridValue(i, 0) != 0) {
+                    empty = false;
+                }
+            }
+            if (empty) {
+                for (int i = Integer.parseInt(actionCommand.substring(5)); i < (Integer.parseInt(actionCommand.substring(5)) + (currentShip.getShipLength() * 10)); i = i + 10) {
+                    game.setLeftGridValue(i, 0, currentShip.getShipNumber());
+                    gameBoard.leftB[i].setBackground(gameBoard.getShipFloating());
+                    gameBoard.leftB[i].setEnabled(false);
+                }
+                game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
+                actionCase("");
+            } else { makeSomeNoise("message.wav"); }
+        } else { makeSomeNoise("message.wav"); }
+    }
+
+    void placeYourShipHorizontally(Ship currentShip, String actionCommand) {
+        if(Integer.parseInt(actionCommand.substring(actionCommand.length()-1)) <= ((10-currentShip.getShipLength())+1) && Integer.parseInt(actionCommand.substring(actionCommand.length()-1)) != 0)  {
+            boolean empty = true;
+            for (int i = Integer.parseInt(actionCommand.substring(5)); i < (Integer.parseInt(actionCommand.substring(5)) + (currentShip.getShipLength())); i++) {
+                if (game.getLeftGridValue(i, 0) != 0) {
+                    empty = false;
+                }
+            }
+            if (empty) {
+                for (int i = Integer.parseInt(actionCommand.substring(5)); i < (Integer.parseInt(actionCommand.substring(5)) + (currentShip.getShipLength())); i++) {
+                    game.setLeftGridValue(i, 0, currentShip.getShipNumber());
+                    gameBoard.leftB[i].setBackground(gameBoard.getShipFloating());
+                    gameBoard.leftB[i].setEnabled(false);
+                }
+                game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
+                actionCase("");
+            } else { makeSomeNoise("message.wav"); }
+        } else { makeSomeNoise("message.wav"); }
     }
 
     void placeOpponentsShip() {
+        int placement = ((int)(100*Math.random())+1);
+
+        actionCaseOpponent(placement);
+
+
+
+    }
+
+    void caseActionOpponent(Ship currentShip, int placement){
         int alignment = (int)Math.round(Math.random());
-        int placement = (int)Math.random()*100+1;
-        leftB[placement]
 
-        if (alignment == 0) {
-
+        if(alignment == 0){
+            placeOpponentsShipVertically(currentShip, placement);
         } else {
-
+            placeOpponentsShipHorizontally(currentShip, placement);
         }
+    }
+
+
+
+    void actionCaseOpponent(int placement) {
+        Ship currentShip;
+
+
+        switch (game.getPlaceHolder()) {
+            case "Carrier" -> {
+                currentShip = new Carrier();
+                caseActionOpponent(currentShip, placement);
+            }
+            case "Battleship" -> {
+                currentShip = new Battleship();
+                caseActionOpponent(currentShip, placement);
+            }
+            case "Cruiser" -> {
+                currentShip = new Cruiser();
+                caseActionOpponent(currentShip, placement);
+            }
+            case "Submarine" -> {
+                currentShip = new Submarine();
+                caseActionOpponent(currentShip, placement);
+            }
+            case "Destroyer" -> {
+                currentShip = new Destroyer();
+                caseActionOpponent(currentShip, placement);
+            }
+            case "Game On" -> {
+                /*
+                game.setYourTurn();
+                gameBoard.disableLeftButtons();
+                game.setPlaceHolder("Carrier");
+                GameOpponent gameOpponent = new GameOpponent(game);
+                placeOpponentsShip();
+                 */
+
+                initThread();
+                try {
+                    TimeUnit.MILLISECONDS.sleep(1100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                infoBox(game.getNameOfPlayer(0) + " says:\n\n\" I have placed my fleet!\nBest of luck, try to find it...\"\n\nGame is on!!!");
+                game.setPlaceHolder("Shooting");
+                game.setYourTurn();
+                gameBoard.enableRightButtons(true);
+                //timeToShoot("");
+
+
+            }
+        }
+    }
+
+    void timeToShoot(String actionCommand) {
+        if(game.getYourTurn()) {
+            int indexI = Integer.parseInt(actionCommand.substring(6));
+            if(game.getRightGridValue(indexI, 1) == 0) {
+                game.setRightGridValue(indexI, 1, 1);
+                if(game.getRightGridValue(indexI, 0) == 0) {
+                     makeSomeNoise("splash.wav");
+                     gameBoard.rightB[indexI].setIcon(gameBoard.getNoHit());
+                     yourNoHit++;
+                } else {
+                    makeSomeNoise("hit.wav");
+                    gameBoard.rightB[indexI].setIcon(gameBoard.getHit());
+                    gameBoard.rightB[indexI].setBackground(gameBoard.getShipSunk());
+                    yourHit++;
+                    if(yourHit == 17) {
+                        gameOver(1);
+                    }
+                }
+                //infoBox("Opponents turn\n\n");
+                //game.setYourTurn();
+                opponentsShot();
+            } else {
+                makeSomeNoise("doh.wav");
+            }
+        } else {
+            //Prepare for multiplayer
+            //gameBoard.rightB[placement].doClick();
+        }
+
+
+    }
+
+    void opponentsShot(){
+        int indexI = opponentsNextShot();
+        game.setYourTurn();
+        infoBox(game.getNameOfPlayer(0) + " says:\n\n\" My turn... \"");
+        if(game.getLeftGridValue(indexI, 1) == 0) {
+            game.setLeftGridValue(indexI, 1, 1);
+            if (game.getLeftGridValue(indexI, 0) == 0) {
+                makeSomeNoise("splash.wav");
+                gameBoard.leftB[indexI].setIcon(gameBoard.getNoHit());
+                opponentNoHit++;
+            } else {
+                makeSomeNoise("hit.wav");
+                gameBoard.leftB[indexI].setIcon(gameBoard.getHit());
+                gameBoard.leftB[indexI].setBackground(gameBoard.getShipSunk());
+                opponentHit++;
+                lastHit = indexI;
+                if(opponentHit == 17) {
+                    gameOver(0);
+                }
+            }
+
+            infoBox("Your turn!");
+            game.setYourTurn();
+        } else {
+            opponentsShot();
+        }
+
+
+    }
+
+    void gameOver(int index) {
+        if(index == 0) {
+            infoBox(game.getNameOfPlayer(0) + " says:\n\n\"Muhahahahaahahaha you lost, better luck next time... \"");
+        } else {
+            infoBox(game.getNameOfPlayer(0) + " says:\n\n\" Congratulations " + game.getNameOfPlayer(1) + ", YOU WON!!! \"");
+        }
+        System.exit(0);
+    }
+
+    int opponentsNextShot() {
+       return ((int)(100*Math.random())+1);
+        //if(lastHit > 0)
+        //lastHit+1
+    }
+
+    void placeOpponentsShipVertically(Ship currentShip, int placement) {
+        if (placement <= 60 + ((5 - currentShip.getShipLength()) * 10)) {
+            boolean empty = true;
+            for (int i = placement; i < (placement + (currentShip.getShipLength() * 10)); i = i + 10) {
+                if (game.getRightGridValue(i, 0) != 0) {
+                    empty = false;
+                }
+            }
+            if (empty) {
+                for (int i = placement; i < (placement + (currentShip.getShipLength() * 10)); i = i + 10) {
+                    game.setRightGridValue(i, 0, currentShip.getShipNumber());
+                    gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
+                    //remove color later
+                }
+                game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
+            }
+        }
+        placeOpponentsShip();
+    }
+
+    void placeOpponentsShipHorizontally(Ship currentShip, int placement) {
+        int range = placement;
+
+        if(placement > 9){
+            range = placement % 10;
+        }
+        if((range <= ((10-currentShip.getShipLength())+1)) && range != 0)  {
+            boolean empty = true;
+            for (int i = placement; i < (placement + (currentShip.getShipLength())); i++) {
+                if (game.getRightGridValue(i, 0) != 0) {
+                    empty = false;
+                }
+            }
+            if (empty) {
+                for (int i = placement; i < (placement + (currentShip.getShipLength())); i++) {
+                    game.setRightGridValue(i, 0, currentShip.getShipNumber());
+                    gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
+                }
+                game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
+            }
+        }
+        placeOpponentsShip();
+    }
+
+    void infoBox(String textMessage) {
+        JOptionPane text = new JOptionPane();
+        JOptionPane.showMessageDialog(text, textMessage, "Info", JOptionPane.INFORMATION_MESSAGE);
     }
 
     void makeSomeNoise(String audioClip){
@@ -178,7 +356,16 @@ public class GameProgress {
         }
         catch (Exception eAudio)
         {
-            System.out.println(eAudio);
+            System.err.print(eAudio);
         }
+    }
+
+    public void run() {
+        makeSomeNoise("laugh.wav");
+    }
+
+    public void initThread() {
+        thread = new Thread(this, threadName);
+        thread.start();
     }
 }

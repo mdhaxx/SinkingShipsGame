@@ -22,7 +22,7 @@ public class Game {
 
     private final GameBoard gameBoard;
 
-    private Game() {
+    Game() {
 
         gameBoard = new GameBoard(this);
         gameBoard.initGameBoard();
@@ -42,8 +42,8 @@ public class Game {
     public void setLeftGridValue(int indexI, int indexJ, int value){ this.leftGrid[indexI][indexJ] = value;}
     public int getLeftGridValue(int indexI, int indexJ){ return this.leftGrid[indexI][indexJ];}
 
-    public void setRightGridValue(int indexI, int indexJ, int value){ this.leftGrid[indexI][indexJ] = value;}
-    public int getRightGridValue(int indexI, int indexJ){ return this.leftGrid[indexI][indexJ];}
+    public void setRightGridValue(int indexI, int indexJ, int value){ this.rightGrid[indexI][indexJ] = value;}
+    public int getRightGridValue(int indexI, int indexJ){ return this.rightGrid[indexI][indexJ];}
 
     public void setYourTurn(){ this.yourTurn = !this.getYourTurn(); }
     public boolean getYourTurn(){ return this.yourTurn; }
@@ -57,7 +57,15 @@ public class Game {
 
     void nextAction(String actionCommand) {
         GameProgress gameprogress = new GameProgress(this, gameBoard);
-        gameprogress.actionCase(actionCommand);
+        if(actionCommand.length() == 0){
+            gameprogress.actionCase(actionCommand);
+        } else if(placeHolder.equals("Shooting")) {
+            gameprogress.timeToShoot(actionCommand);
+        } else if(actionCommand.charAt(0) == 'l') {
+            gameprogress.actionCase(actionCommand);
+        } else {
+            gameprogress.timeToShoot(actionCommand);
+        }
     }
 
     public static void main(String[] args) { new Game(); }
