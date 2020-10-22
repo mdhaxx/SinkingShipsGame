@@ -94,9 +94,9 @@ public class GameProgress {
                     game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
                     actionCase("");
                 }
-            } else { makeSomeNoise("meep.wav"); }
+            } else { makeSomeNoise("message.wav"); }
         } else {
-            if(Integer.parseInt(actionCommand.substring(actionCommand.length()-1)) <= ((10-currentShip.getShipLength())+1)) {
+            if(Integer.parseInt(actionCommand.substring(actionCommand.length()-1)) <= ((10-currentShip.getShipLength())+1) && Integer.parseInt(actionCommand.substring(actionCommand.length()-1)) != 0)  {
                 boolean empty = true;
                 for (int i = Integer.parseInt(actionCommand.substring(5)); i < (Integer.parseInt(actionCommand.substring(5)) + (currentShip.getShipLength())); i++) {
                     if (game.getLeftGridValue(i, 0) != 0) {
@@ -112,7 +112,7 @@ public class GameProgress {
                     game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
                     actionCase("");
                 }
-            }
+            } else { makeSomeNoise("message.wav"); }
         }
     }
 
@@ -130,7 +130,7 @@ public class GameProgress {
         }
         catch (Exception eAudio)
         {
-            System.out.println(eAudio);;
+            System.out.println(eAudio);
         }
     }
 
