@@ -37,6 +37,7 @@ public class GameBoard implements ActionListener {
     private final Color[] buttonColors = new Color[10];
     private final Color shipFloating = new Color(45, 149, 63, 255);
     private final Color shipSunk = new Color(179, 11, 11);
+    //private final Color shipSunk = new Color(0, 50, 135);
 
     private final ImageIcon hit = new ImageIcon("gameData/images/hit3.png");
     private final ImageIcon noHit = new ImageIcon("gameData/images/drop.png");
@@ -261,6 +262,11 @@ public class GameBoard implements ActionListener {
             x++;
         }
     }
+
+    public void frameRepaint(){
+        frame.repaint();
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 

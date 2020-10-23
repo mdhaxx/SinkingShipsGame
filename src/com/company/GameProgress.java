@@ -12,7 +12,7 @@ public class GameProgress implements Runnable {
     private final Game game;
     private final GameBoard gameBoard;
     private Thread thread;
-    private String threadName = "laugh";
+    private String threadName = "doh";
     private static int lastHit;
     private static int yourHit;
     private static int yourNoHit;
@@ -120,8 +120,12 @@ public class GameProgress implements Runnable {
                 }
                 game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
                 actionCase("");
-            } else { makeSomeNoise("message.wav"); }
-        } else { makeSomeNoise("message.wav"); }
+            } else {
+                initThread("message");
+                 }
+        } else {
+            initThread("message");
+        }
     }
 
     void placeYourShipHorizontally(Ship currentShip, String actionCommand) {
@@ -140,17 +144,18 @@ public class GameProgress implements Runnable {
                 }
                 game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
                 actionCase("");
-            } else { makeSomeNoise("message.wav"); }
-        } else { makeSomeNoise("message.wav"); }
+            } else {
+                initThread("message");
+            }
+        } else {
+            initThread("message");
+        }
     }
 
     void placeOpponentsShip() {
         int placement = ((int)(100*Math.random())+1);
 
         actionCaseOpponent(placement);
-
-
-
     }
 
     void caseActionOpponent(Ship currentShip, int placement){
@@ -167,7 +172,6 @@ public class GameProgress implements Runnable {
 
     void actionCaseOpponent(int placement) {
         Ship currentShip;
-
 
         switch (game.getPlaceHolder()) {
             case "Carrier" -> {
@@ -191,27 +195,12 @@ public class GameProgress implements Runnable {
                 caseActionOpponent(currentShip, placement);
             }
             case "Game On" -> {
-                /*
-                game.setYourTurn();
-                gameBoard.disableLeftButtons();
-                game.setPlaceHolder("Carrier");
-                GameOpponent gameOpponent = new GameOpponent(game);
-                placeOpponentsShip();
-                 */
-
-                initThread();
-                try {
-                    TimeUnit.MILLISECONDS.sleep(1100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                initThread("laugh");
+                wait(1100);
                 infoBox(game.getNameOfPlayer(0) + " says:\n\n\" I have placed my fleet!\nBest of luck, try to find it...\"\n\nGame is on!!!");
                 game.setPlaceHolder("Shooting");
                 game.setYourTurn();
                 gameBoard.enableRightButtons(true);
-                //timeToShoot("");
-
-
             }
         }
     }
@@ -222,23 +211,26 @@ public class GameProgress implements Runnable {
             if(game.getRightGridValue(indexI, 1) == 0) {
                 game.setRightGridValue(indexI, 1, 1);
                 if(game.getRightGridValue(indexI, 0) == 0) {
-                     makeSomeNoise("splash.wav");
+                    initThread("blob");
                      gameBoard.rightB[indexI].setIcon(gameBoard.getNoHit());
+                    System.out.println(gameBoard.rightB[indexI].getColorModel());
                      yourNoHit++;
+                     gameBoard.frameRepaint();
                 } else {
-                    makeSomeNoise("hit.wav");
+                    initThread("e");
+                    wait(500);
                     gameBoard.rightB[indexI].setIcon(gameBoard.getHit());
                     gameBoard.rightB[indexI].setBackground(gameBoard.getShipSunk());
                     yourHit++;
+                    gameBoard.frameRepaint();
                     if(yourHit == 17) {
                         gameOver(1);
                     }
                 }
-                //infoBox("Opponents turn\n\n");
-                //game.setYourTurn();
                 opponentsShot();
             } else {
-                makeSomeNoise("doh.wav");
+                initThread("doh");
+
             }
         } else {
             //Prepare for multiplayer
@@ -251,25 +243,27 @@ public class GameProgress implements Runnable {
     void opponentsShot(){
         int indexI = opponentsNextShot();
         game.setYourTurn();
-        infoBox(game.getNameOfPlayer(0) + " says:\n\n\" My turn... \"");
+        //infoBox(game.getNameOfPlayer(0) + " says:\n\n\" My turn... \"");
         if(game.getLeftGridValue(indexI, 1) == 0) {
             game.setLeftGridValue(indexI, 1, 1);
             if (game.getLeftGridValue(indexI, 0) == 0) {
-                makeSomeNoise("splash.wav");
+                initThread("blob");
                 gameBoard.leftB[indexI].setIcon(gameBoard.getNoHit());
                 opponentNoHit++;
+                gameBoard.frameRepaint();
             } else {
-                makeSomeNoise("hit.wav");
+                initThread("e");
                 gameBoard.leftB[indexI].setIcon(gameBoard.getHit());
                 gameBoard.leftB[indexI].setBackground(gameBoard.getShipSunk());
                 opponentHit++;
+                gameBoard.frameRepaint();
                 lastHit = indexI;
                 if(opponentHit == 17) {
                     gameOver(0);
                 }
             }
 
-            infoBox("Your turn!");
+            //infoBox("Your turn!");
             game.setYourTurn();
         } else {
             opponentsShot();
@@ -361,11 +355,20 @@ public class GameProgress implements Runnable {
     }
 
     public void run() {
-        makeSomeNoise("laugh.wav");
+        makeSomeNoise(this.threadName + ".wav");
     }
 
-    public void initThread() {
+    public void initThread(String threadName) {
+        this.threadName = threadName;
         thread = new Thread(this, threadName);
         thread.start();
+    }
+
+    void wait(int timeInterval){
+        try {
+            TimeUnit.MILLISECONDS.sleep(timeInterval);
+        } catch (InterruptedException e) {
+            System.err.print(e);
+        }
     }
 }
