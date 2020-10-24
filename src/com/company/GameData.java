@@ -1,12 +1,9 @@
 package com.company;
 
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 class GameData {
@@ -16,33 +13,8 @@ class GameData {
     int[][] testArrayL = new int[5][2];
     int[][] testArrayR = new int[5][2];
 
-
-
-
     public GameData(){
         this.game = game;
-/*
-        testArrayL[1][0] = 101;
-        testArrayL[2][0] = 201;
-        testArrayL[3][0] = 301;
-        testArrayL[4][0] = 401;
-
-        testArrayL[1][1] = 111;
-        testArrayL[2][1] = 211;
-        testArrayL[3][1] = 311;
-        testArrayL[4][1] = 411;
-
-        testArrayR[1][0] = 102;
-        testArrayR[2][0] = 202;
-        testArrayR[3][0] = 302;
-        testArrayR[4][0] = 402;
-
-        testArrayR[1][1] = 112;
-        testArrayR[2][1] = 212;
-        testArrayR[3][1] = 312;
-        testArrayR[4][1] = 412;
-
- */
 
 
         //printStringToFile(getStringFromArrayGridLeftAndArrayGridRight(testArrayL, testArrayR));
@@ -54,21 +26,27 @@ class GameData {
 
     }
 
+    public boolean checkIfDataToSaveExist(){
+        boolean isData = false;
+        for(int i = 1; i <= 100; i++) {
+            if(game.getLeftGridValue(i, 0) > 0){ isData = true; }
+            if(game.getLeftGridValue(i, 1) > 0){ isData = true; }
+            if(game.getRightGridValue(i, 0) > 0){ isData = true; }
+            if(game.getRightGridValue(i, 1) > 0){ isData = true; }
+        }
+        return isData;
+    }
 
-/*
-    public void saveGameData(Game game) {
-        if (game.getPlaceHolder().equals("Carrier")) {
+    public void saveGameData() {
+        if(!checkIfDataToSaveExist()){
             JOptionPane noGame = new JOptionPane();
             JOptionPane.showMessageDialog(noGame, "There is no game to save!", "No game", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            // ---------------------------------------
-            //  här ska vi spara ner data till fil.
-            // ---------------------------------------
+
         }
         System.exit(0);
     }
-        // ---------------------------------------
-
+/*
 
 
         if(choseToSaveGame) {
@@ -102,47 +80,8 @@ class GameData {
         return false;
     }
 
-    private void initSavedGame() {
-        //gameData = new GameData();
-        //gameData.loadSavedGameData();
-    }
 
-
-
-
-
-    public openFile(){
-        try { //Lagt till en try, flyttat scanner för att kunna använda close i finally.
-            Scanner sc = new Scanner(new File(inputFile));
-            try {
-                String[] dateStrings = getDateStrings(sc);
-                LocalDateTime[] dates = getDates(dateStrings);
-                System.out.println(getStringMessage() + getTotalFeeCost(dates));
-            } finally {
-                sc.close(); //close saknades (1)
-            }
-
-            //utökat felhanteringen för att ta hand om alla eventualiteter.
-        } catch (IOException e) {
-            System.err.println("Could not read file " + inputFile);
-        } catch (NoSuchElementException e) { //(2)
-            System.err.println("No data to process");
-        } catch (IllegalArgumentException e) { //(3)
-            System.err.println("Wrong date in inputfile!");
-        } catch (Exception e) { //(4)
-            System.err.println("Ouch! Something went terribly wrong...");
-        }
-    }
-
-    public String getStringMessage() {
-        return "The total fee for the inputfile is ";
-    } //Mellanrum saknades(5)
-
-    public String[] getDateStrings(Scanner sc) {
-        String[] dateStrings = sc.nextLine().split(", ");
-        return dateStrings;
-    }
-        */
+ */
     public String getStringFromArrayGridLeftAndArrayGridRight(int[][] arrayLeftGrid, int[][] arrayRightGrid){
         StringBuilder contentToWriteToFile = new StringBuilder();
 
