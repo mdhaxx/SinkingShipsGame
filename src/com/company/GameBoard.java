@@ -1,8 +1,5 @@
 package com.company;
 
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -10,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 
 
 public class GameBoard implements ActionListener {
@@ -18,8 +14,8 @@ public class GameBoard implements ActionListener {
     private final JFrame frame = new JFrame();
     final JButton[] leftB = new JButton[101];
     final JButton[] rightB = new JButton[101];
-    private final JLabel leftHL = new JLabel("Your field");
-    private final JLabel rightHL = new JLabel("Opponents field");
+    final JLabel leftHL = new JLabel("Your field");
+    final JLabel rightHL = new JLabel("Opponents field");
     private final JLabel midLine = new JLabel();
     private final JLabel[] leftTL = new JLabel[10];
     private final JLabel[] leftSL = new JLabel[10];
@@ -37,7 +33,6 @@ public class GameBoard implements ActionListener {
     private final Color[] buttonColors = new Color[10];
     private final Color shipFloating = new Color(45, 149, 63, 255);
     private final Color shipSunk = new Color(179, 11, 11);
-    //private final Color shipSunk = new Color(0, 50, 135);
 
     private final ImageIcon hit = new ImageIcon("gameData/images/hit3.png");
     private final ImageIcon noHit = new ImageIcon("gameData/images/drop.png");
@@ -244,16 +239,6 @@ public class GameBoard implements ActionListener {
                 rightB[i + j].setText("rightB" + (i + j));
                 rightB[i + j].setForeground(new Color(0, 0, 180 - (15 * x)));
                 rightB[i + j].addActionListener(this);
-                /*
-                rightB[i + j].addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-
-                        //gameProgress.setPushedButton(e.getActionCommand());
-                        //gameProgress.placeShip(gameProgress.getCurrentShip());
-                    }
-                });
-
-                 */
                 frame.add(rightB[i + j]);
                 width = width + 44;
             }
@@ -269,7 +254,6 @@ public class GameBoard implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
             game.nextAction(e.getActionCommand());
     }
 

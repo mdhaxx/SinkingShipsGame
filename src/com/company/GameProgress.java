@@ -4,6 +4,7 @@ package com.company;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -201,21 +202,27 @@ public class GameProgress implements Runnable {
                 game.setPlaceHolder("Shooting");
                 game.setYourTurn();
                 gameBoard.enableRightButtons(true);
+                gameBoard.rightHL.setForeground(new Color(0,0,0));
+                gameBoard.leftHL.setForeground(new Color(218,218,218));
+                gameBoard.frameRepaint();
             }
         }
     }
 
     void timeToShoot(String actionCommand) {
         if(game.getYourTurn()) {
+
+            gameBoard.rightHL.setForeground(new Color(0,0,0));
+            gameBoard.leftHL.setForeground(new Color(218,218,218));
+            gameBoard.frameRepaint();
             int indexI = Integer.parseInt(actionCommand.substring(6));
             if(game.getRightGridValue(indexI, 1) == 0) {
                 game.setRightGridValue(indexI, 1, 1);
                 if(game.getRightGridValue(indexI, 0) == 0) {
                     initThread("blob");
-                     gameBoard.rightB[indexI].setIcon(gameBoard.getNoHit());
-                    System.out.println(gameBoard.rightB[indexI].getColorModel());
-                     yourNoHit++;
-                     gameBoard.frameRepaint();
+                    gameBoard.rightB[indexI].setIcon(gameBoard.getNoHit());
+                    yourNoHit++;
+                    gameBoard.frameRepaint();
                 } else {
                     initThread("e");
                     wait(500);
@@ -236,13 +243,14 @@ public class GameProgress implements Runnable {
             //Prepare for multiplayer
             //gameBoard.rightB[placement].doClick();
         }
-
-
     }
 
     void opponentsShot(){
         int indexI = opponentsNextShot();
         game.setYourTurn();
+        gameBoard.rightHL.setForeground(new Color(218,218,218));
+        gameBoard.leftHL.setForeground(new Color(0,0,0));
+        gameBoard.frameRepaint();
         //infoBox(game.getNameOfPlayer(0) + " says:\n\n\" My turn... \"");
         if(game.getLeftGridValue(indexI, 1) == 0) {
             game.setLeftGridValue(indexI, 1, 1);
@@ -343,9 +351,9 @@ public class GameProgress implements Runnable {
             clip.open(AudioSystem.getAudioInputStream(new File("./gameData/sound/" + audioClip)));
             clip.start();
             while (!clip.isRunning())
-                Thread.sleep(10);
+                thread.sleep(10);
             while (clip.isRunning())
-                Thread.sleep(10);
+                thread.sleep(10);
             clip.close();
         }
         catch (Exception eAudio)
