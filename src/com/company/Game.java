@@ -14,23 +14,18 @@ public class Game {
     private boolean yourTurn = true;
     private String placeHolder = "";
 
-    private boolean choseToSaveGame;
-    private boolean previousGameIsSaved;
-    private Scanner scan;
-    private File file;
-    private FileWriter fileWriter;
-
     private final GameBoard gameBoard;
 
     Game() {
-
         gameBoard = new GameBoard(this);
         gameBoard.initGameBoard();
-        GameOpponent gameOpponent = new GameOpponent(this);
-        GamePlayer gameplayer = new GamePlayer(this);
 
-
+            new GameOpponent(this);
+            new GamePlayer(this);
+        GameData gameData = new GameData();
+        gameData.setGame(this);
     }
+
     public String getPlacedAtGridPosition(int index) { return this.placedAtGridPosition[index]; }
 
     public void setPlayerNameFromInput(String name, int index){ this.players[index] = name;}
@@ -41,6 +36,9 @@ public class Game {
 
     public void setLeftGridValue(int indexI, int indexJ, int value){ this.leftGrid[indexI][indexJ] = value;}
     public int getLeftGridValue(int indexI, int indexJ){ return this.leftGrid[indexI][indexJ];}
+
+    public int[][] getLeftGrid(){ return this.leftGrid; }
+    public int[][] getRightGrid(){ return this.rightGrid; }
 
     public void setRightGridValue(int indexI, int indexJ, int value){ this.rightGrid[indexI][indexJ] = value;}
     public int getRightGridValue(int indexI, int indexJ){ return this.rightGrid[indexI][indexJ];}
@@ -68,7 +66,9 @@ public class Game {
         }
     }
 
-    public static void main(String[] args) { new Game(); }
+    public static void main(String[] args) {
+        new Game();
+    }
 
 }
 

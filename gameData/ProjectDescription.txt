@@ -14,12 +14,12 @@ men utökas med GUI om tid finns.
 - vid avslutande av spelet ställa frågan om man spara ej avslutat spel och i så fall spara ner infon till fil.
 - vid start läsa in ev info från och fråga om påbörjat spel ska fortsättas? annars nytt
 - ljud vid bom/träff samt vinst/förlust.
-- Interface för skeppen. blå/röd färg.längd.
+- Interface för skeppen. typ.längd.
 
 
 - spelplanen ska bestå av två rutnät som är 10 x 10
-- main för att placera ut dina skepp och motspelarens skott
-- secund    public void testIfGameIsSaved() {ary för att placera ut spelarens skott
+- main (left) för att placera ut dina skepp och motspelarens skott
+- second (right) för att placera ut spelarens skott
 - namn och storlek på skepp som ska placeras ut ser du nedan.
   No.	Class of ship	Size
   1	  Carrier	        5

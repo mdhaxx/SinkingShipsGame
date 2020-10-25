@@ -28,9 +28,8 @@ public class GameBoard implements ActionListener {
     private final Font fontHeader = new Font("Verdana", Font.BOLD, 14);
     private final Font fontText = new Font("Verdana", Font.PLAIN, 12);
 
-    private final Border blackline = BorderFactory.createLineBorder(Color.black);
+    private final Border blackLine = BorderFactory.createLineBorder(Color.black);
 
-    private final Color[] buttonColors = new Color[10];
     private final Color shipFloating = new Color(45, 149, 63, 255);
     private final Color shipSunk = new Color(179, 11, 11);
 
@@ -42,38 +41,35 @@ public class GameBoard implements ActionListener {
 
     GameBoard(Game game) {
         this.game = game;
-
-
     }
 
     Color getShipFloating() { return shipFloating; }
     Color getShipSunk() { return shipSunk; }
 
-
     public ImageIcon getNoHit() { return this.noHit; }
     public ImageIcon getHit() { return this.hit; }
-
 
     void initGameBoard() {
 
         printFrame();
         printLeftGridHeadLabel();
-        printLeftGridTopLabels();  //vår planhalva
+        printLeftGridTopLabels();
         printLeftGridSideLabels();
         printLeftGridButtons();
         printMidLine();
         printRightGridHeadLabel();
-        printRightGridTopLabels(); //motståndarens
+        printRightGridTopLabels();
         printRightGridSideLabels();
         printRightGridButtons();
-        //gameProgress.setColors();
 
         frame.repaint();
         game.setPlaceHolder("gameBoard");
 
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
-                //gameProgress.quitGame("Gameboard");
+                GameData gameData = new GameData();
+                gameData.saveGameData();
+                System.out.println("stäng");
             }
         });
     }
@@ -90,23 +86,10 @@ public class GameBoard implements ActionListener {
         }
     }
 
-    public int whichRowColor(int index) {
-        if ((index % 10) == 0) {
-            return (index / 10) - 1;
-        } else {
-            return ((int) (Math.round((index / 10) + 0.5)) * 10) / 10 - 1;
-        }
-    }
-
-    static void changeToImageWhenHit() {
-    }
-
-
     void printFrame() {
         frame.setBounds(200, 150, frameWidth, frameHeight);
         frame.setLayout(null);
         frame.setVisible(true);
-        //setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLocationRelativeTo(null);
     }
 
@@ -122,7 +105,7 @@ public class GameBoard implements ActionListener {
         for (int i = 0; i < 10; i++) {
             leftTL[i] = new JLabel(Character.toString((char) 65 + i));
             leftTL[i].setBounds(width, 35, 44, 44);
-            leftTL[i].setBorder(blackline);
+            leftTL[i].setBorder(blackLine);
             leftTL[i].setHorizontalAlignment(JLabel.CENTER);
             leftTL[i].setVerticalAlignment(JLabel.CENTER);
             leftTL[i].setFont(fontText);
@@ -138,7 +121,7 @@ public class GameBoard implements ActionListener {
         for (int i = 0; i < 10; i++) {
             leftSL[i] = new JLabel("" + (i + 1));
             leftSL[i].setBounds(width, height, 44, 44);
-            leftSL[i].setBorder(blackline);
+            leftSL[i].setBorder(blackLine);
             leftSL[i].setHorizontalAlignment(JLabel.CENTER);
             leftSL[i].setVerticalAlignment(JLabel.CENTER);
             leftSL[i].setFont(fontText);
@@ -153,19 +136,17 @@ public class GameBoard implements ActionListener {
         int x = 1;
 /*
         for (int height = 0; height < 10; height++) {
-            for (int width = 1; width <= 10; width++) {
+            for (int width = 1; width <= 10; width++) {            Andreas variant av loopen
                 knappNr = (height * 10) + width;
             }
         }
 
 */
-
-
-
         for (int i = 0; i < 100; i = i + 10) {
             for (int j = 1; j <= 10; j++) {
                 leftB[j + i] = new JButton();
                 leftB[j + i].setBounds(width, height, 44, 44);
+                // if -> info i vår array
                 leftB[j + i].setEnabled(true);
                 leftB[j + i].setBackground(new Color(0, 0, 180 - (15 * x)));
                 leftB[j + i].setText("leftB" + (i + j));
@@ -182,7 +163,7 @@ public class GameBoard implements ActionListener {
 
     void printMidLine() {
         midLine.setBounds(frameWidth / 2, 0, 1, frameHeight - 36);
-        midLine.setBorder(blackline);
+        midLine.setBorder(blackLine);
         frame.add(midLine);
     }
 
@@ -199,7 +180,7 @@ public class GameBoard implements ActionListener {
         for (int i = 0; i < 10; i++) {
             rightTL[i] = new JLabel(Character.toString((char) 65 + i));
             rightTL[i].setBounds(width, 35, 44, 44);
-            rightTL[i].setBorder(blackline);
+            rightTL[i].setBorder(blackLine);
             rightTL[i].setHorizontalAlignment(JLabel.CENTER);
             rightTL[i].setVerticalAlignment(JLabel.CENTER);
             rightTL[i].setFont(fontText);
@@ -215,7 +196,7 @@ public class GameBoard implements ActionListener {
         for (int i = 0; i < 10; i++) {
             rightSL[i] = new JLabel("" + (i + 1));
             rightSL[i].setBounds(width, height, 44, 44);
-            rightSL[i].setBorder(blackline);
+            rightSL[i].setBorder(blackLine);
             rightSL[i].setHorizontalAlignment(JLabel.CENTER);
             rightSL[i].setVerticalAlignment(JLabel.CENTER);
             rightSL[i].setFont(fontText);

@@ -63,9 +63,6 @@ public class GameProgress implements Runnable {
                 GameOpponent gameOpponent = new GameOpponent(game);
                 infoBox("All your ships have been placed!");
                 placeOpponentsShip();
-
-
-
             }
         }
     }
@@ -306,7 +303,7 @@ public class GameProgress implements Runnable {
             if (empty) {
                 for (int i = placement; i < (placement + (currentShip.getShipLength() * 10)); i = i + 10) {
                     game.setRightGridValue(i, 0, currentShip.getShipNumber());
-                    gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
+                    //gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
                     //remove color later
                 }
                 game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));

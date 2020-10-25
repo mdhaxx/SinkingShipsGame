@@ -8,31 +8,44 @@ import java.util.Scanner;
 
 class GameData {
     private final String fileName = "./gameData/gameData.txt";
-    private Game game;
 
     int[][] testArrayL = new int[5][2];
     int[][] testArrayR = new int[5][2];
 
+    private static Game game;
+
     public GameData(){
-        this.game = game;
 
-
+        //saveGameData();
         //printStringToFile(getStringFromArrayGridLeftAndArrayGridRight(testArrayL, testArrayR));
         //getStringFromFileToArrayGridLeftAndArrayGridRight();
     }
 
-    public static void main(String[] args) {
-        new GameData();
 
+    public void setGame(Game game){
+        this.game = game;
     }
 
     public boolean checkIfDataToSaveExist(){
         boolean isData = false;
         for(int i = 1; i <= 100; i++) {
-            if(game.getLeftGridValue(i, 0) > 0){ isData = true; }
-            if(game.getLeftGridValue(i, 1) > 0){ isData = true; }
-            if(game.getRightGridValue(i, 0) > 0){ isData = true; }
-            if(game.getRightGridValue(i, 1) > 0){ isData = true; }
+
+            if(game.getLeftGridValue(i, 0) > 0){
+                isData = true;
+                break;
+            }
+            if(game.getLeftGridValue(i, 1) > 0){
+                isData = true;
+                break;
+            }
+            if(game.getRightGridValue(i, 0) > 0){
+                isData = true;
+                break;
+            }
+            if(game.getRightGridValue(i, 1) > 0){
+                isData = true;
+                break;
+            }
         }
         return isData;
     }
@@ -42,46 +55,11 @@ class GameData {
             JOptionPane noGame = new JOptionPane();
             JOptionPane.showMessageDialog(noGame, "There is no game to save!", "No game", JOptionPane.INFORMATION_MESSAGE);
         } else {
-
+            printStringToFile(getStringFromArrayGridLeftAndArrayGridRight(game.getLeftGrid(), game.getRightGrid()));
         }
         System.exit(0);
     }
-/*
 
-
-        if(choseToSaveGame) {
-            try{
-                //Antingen outputstream/inputstream eller scanner/filewriter?
-                //DataOutputStream
-                fileWriter = new FileWriter(File.createTempFile("SavedGameData", "txt", new File("gameData")));
-                //scan = new Scanner(currentGameData);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally { scan.close(); }
-        }
-
-
-    private void loadSavedGameData() {
-        try {
-            scan = new Scanner(new File("gameData/savedGameData.txt"));
-            if (file.exists())
-                while (scan.hasNext()) {
-                    //DataInputStream
-                }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            scan.close();
-        }
-    }
-
-    public boolean checkIfDataExistsForSaving(){
-
-        return false;
-    }
-
-
- */
     public String getStringFromArrayGridLeftAndArrayGridRight(int[][] arrayLeftGrid, int[][] arrayRightGrid){
         StringBuilder contentToWriteToFile = new StringBuilder();
 
@@ -99,12 +77,18 @@ class GameData {
         String stringReceivedFromFile = readStringFromFile();
         String[] splitStringReceivedFromFile = stringReceivedFromFile.split(";");
 
+        int l = splitStringReceivedFromFile.length;
+        int ll = splitStringReceivedFromFile[splitStringReceivedFromFile.length-2].length();
+        int ll2 = splitStringReceivedFromFile[splitStringReceivedFromFile.length-1].length();
+
+
+
         int row = 1;
-        for(int i = 0; i <= (splitStringReceivedFromFile.length)-1; i+=4){
-            testArrayL[row][0] =  Integer.parseInt(splitStringReceivedFromFile[i]);
-            testArrayL[row][1] =  Integer.parseInt(splitStringReceivedFromFile[i+1]);
-            testArrayR[row][0] =  Integer.parseInt(splitStringReceivedFromFile[i+2]);
-            testArrayR[row][1] =  Integer.parseInt(splitStringReceivedFromFile[i+3]);
+        for(int i = 0; i <= (splitStringReceivedFromFile.length)-3; i+=4){
+            game.setLeftGridValue(row, 0, Integer.parseInt(splitStringReceivedFromFile[i]));
+            game.setLeftGridValue(row, 1, Integer.parseInt(splitStringReceivedFromFile[i+1]));
+            game.setRightGridValue(row, 0, Integer.parseInt(splitStringReceivedFromFile[i+2]));
+            game.setRightGridValue(row, 1, Integer.parseInt(splitStringReceivedFromFile[i+3]));
             row++;
         }
     }

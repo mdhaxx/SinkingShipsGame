@@ -9,13 +9,15 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GameDataTest {
+public class GameDataTest{
 
     private int[][] testArrayL = new int[3][2];
     private int[][] testArrayR = new int[3][2];
 
     private int[][] comparingTestArrayL = new int[3][2];
     private int[][] comparingTestArrayR = new int[3][2];
+
+    GameDataTest() {  }
 
     @Test
     @DisplayName("test to put arrays from both grids into string")
@@ -86,7 +88,35 @@ public class GameDataTest {
 
     }
 
+    @Test
+    @DisplayName("test to create ship and get right shipType")
+    void testToGetCorrectShipType() {
 
+        Ship testShip = new Destroyer();
 
+        assertEquals("Destroyer", testShip.getShipType(), "shipType does not match");
 
+    }
+
+    @Test
+    @DisplayName("test to create ship and get right shipLength")
+    void testToGetCorrectShipLength() {
+
+        Ship testShip = new Destroyer();
+
+        assertEquals(2, testShip.getShipLength(), "shipType does not match");
+
+    }
+
+    /*
+    @Test
+    @DisplayName("test putting a submarine into leftGridArray")
+    void testSubmarineInOutLeftGrid() {
+
+        placeYourShipHorizontally(new Submarine(), "leftB1");
+
+        assertEquals(game.getLeftGridValue(1,0), 5, "no Submarine on place");
+    }
+
+     */
 }
