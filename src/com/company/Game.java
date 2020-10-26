@@ -33,6 +33,7 @@ public class Game {
             new GameOpponent(this);
             new GamePlayer(this);
         }
+
     }
 
     public int getYourHit() {return this.yourHit; }
@@ -85,6 +86,11 @@ public class Game {
         } else {
             gameprogress.timeToShoot(actionCommand);
         }
+    }
+
+    void whereToFromSavedGame(){
+        GameProgress gameProgress = new GameProgress(this, gameBoard);
+        gameProgress.userDialogueInitShip(new Battleship());
     }
 
     public static void main(String[] args) {

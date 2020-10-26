@@ -188,7 +188,7 @@ public class GameProgress implements Runnable {
                 caseActionOpponent(currentShip, placement);
             }
             case "Game On" -> {
-                initThread("laugh");
+                //initThread("laugh");
                 wait(1100);
                 infoBox(game.getNameOfPlayer(0) + " says:\n\n\" I have placed my fleet!\nBest of luck, try to find it...\"\n\nGame is on!!!");
                 game.setPlaceHolder("Shooting");

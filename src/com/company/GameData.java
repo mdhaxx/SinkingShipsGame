@@ -27,7 +27,7 @@ class GameData {
 
 
     public void setGame(Game game){
-        this.game = game;
+        GameData.game = game;
     }
 
     public boolean checkIfDataToSaveExist(){
@@ -138,11 +138,6 @@ class GameData {
         String stringReceivedFromFile = readStringFromFile();
         String[] splitStringReceivedFromFile = stringReceivedFromFile.split(";");
 
-        int l = splitStringReceivedFromFile.length;
-        int ll = splitStringReceivedFromFile[splitStringReceivedFromFile.length-2].length();
-        int ll2 = splitStringReceivedFromFile[splitStringReceivedFromFile.length-1].length();
-
-
         game.setPlayerNameFromInput(splitStringReceivedFromFile[splitStringReceivedFromFile.length-2],0);
         game.setPlayerNameFromInput(splitStringReceivedFromFile[splitStringReceivedFromFile.length-1],1);
     }
@@ -187,18 +182,33 @@ class GameData {
                 .max(Integer::compare)
                 .get();
 
+        Ship loadedShip;
         switch (result) {
-            // gameProgress???
+            case 1 -> {
+               game.setPlaceHolder("Battleship");
+               loadedShip = new Battleship();
+               break;
+            }
+            case 2 -> {
+                game.setPlaceHolder("Cruiser");
+                loadedShip = new Cruiser();
+                break;
+            }
+            case 3 -> {
+                game.setPlaceHolder("Submarine");
+                loadedShip = new Submarine();
+                break;
+            }
+            case 4 -> {
+                game.setPlaceHolder("Destroyer");
+                loadedShip = new Destroyer();
+                break;
+            }
+            case 5 -> {
+                game.setPlaceHolder("Shooting");
 
-
-                case 1 -> {
-                    game.setPlaceHolder("Battleship");
-                    //gameProgress.userDialogueInitShip(new Battleship());
-                }
-                case 2 -> { game.setPlaceHolder("Cruiser"); }
-                case 3 -> { game.setPlaceHolder("Submarine"); }
-                case 4 -> { game.setPlaceHolder("Destroyer"); }
-                case 5 -> { game.setPlaceHolder("Shooting"); }
+                break;
+            }
             }
     }
 
