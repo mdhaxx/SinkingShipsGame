@@ -22,6 +22,10 @@ public class GameProgress implements Runnable {
         this.gameBoard = gameBoard;
     }
 
+    /**
+     * Creates each ship
+     * @param actionCommand String that holds which button has been pushed
+     */
     void actionCase(String actionCommand) {
         Ship currentShip;
         switch (game.getPlaceHolder()) {
@@ -62,6 +66,11 @@ public class GameProgress implements Runnable {
         }
     }
 
+    /**
+     * Decides what action should be done next
+     * @param currentShip The ship that is currently being initialized
+     * @param actionCommand String that holds which button has been pushed
+     */
     void caseAction(Ship currentShip, String actionCommand) {
         if (actionCommand.equals("")) {
             userDialogueInitShip(currentShip);
@@ -72,6 +81,10 @@ public class GameProgress implements Runnable {
 
     }
 
+    /**
+     * Pops up a option pane to chose if to place the current ship vertical or horizontally
+     * @param currentShip the ship that is currently being placed
+     */
     void userDialogueInitShip(Ship currentShip) {
         JOptionPane pane = new JOptionPane();
         Object[] options = {"Vertical", "Horizontal"};
@@ -89,6 +102,11 @@ public class GameProgress implements Runnable {
         }
     }
 
+    /**
+     * Calls different methods depending on what choices have been made regarding ship alignment
+     * @param currentShip The ship that is currently being placed
+     * @param actionCommand String that holds what button has been pushed
+     */
     void placeYourShip(Ship currentShip, String actionCommand) {
         if(currentShip.getShipAlignment().equals("Vertical")) {
             placeYourShipVertically(currentShip, actionCommand);
