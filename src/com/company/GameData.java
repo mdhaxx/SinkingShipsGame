@@ -4,26 +4,15 @@ package com.company;
 import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Scanner;
 
 class GameData {
     private final String fileName = "./gameData/gameData.txt";
 
-    int[][] testArrayL = new int[5][2];
-    int[][] testArrayR = new int[5][2];
-
     private static Game game;
 
-    public GameData(){
-
-        //checkIfGameDataToLoadExist();
-        //saveGameData();
-        //printStringToFile(getStringFromArrayGridLeftAndArrayGridRight(testArrayL, testArrayR));
-        //getStringFromFileToArrayGridLeftAndArrayGridRight();
-    }
+    public GameData(){  }
 
 
     public void setGame(Game game){
@@ -117,8 +106,6 @@ class GameData {
         }
     }
 
-
-
     public void checkIfGameDataToLoadExist(){
         File file = new File(fileName);
         if(file.exists()) {
@@ -182,7 +169,7 @@ class GameData {
                 .max(Integer::compare)
                 .get();
 
-        Ship loadedShip;
+        Ship loadedShip = new Carrier();
         switch (result) {
             case 1 -> {
                game.setPlaceHolder("Battleship");
@@ -209,7 +196,9 @@ class GameData {
 
                 break;
             }
-            }
+
+        }
+        game.whereToFromSavedGame(loadedShip);
     }
 
     public void getHowManyShots(){

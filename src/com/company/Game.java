@@ -1,9 +1,5 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.util.Scanner;
-
 public class Game {
 
     private int[][] leftGrid = new int[101][2];
@@ -88,9 +84,9 @@ public class Game {
         }
     }
 
-    void whereToFromSavedGame(){
+    void whereToFromSavedGame(Ship loadedShip){
         GameProgress gameProgress = new GameProgress(this, gameBoard);
-        gameProgress.userDialogueInitShip(new Battleship());
+        gameProgress.userDialogueInitShip(loadedShip);
     }
 
     public static void main(String[] args) {

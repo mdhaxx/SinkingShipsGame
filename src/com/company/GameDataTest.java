@@ -108,15 +108,4 @@ public class GameDataTest{
 
     }
 
-    /*
-    @Test
-    @DisplayName("test putting a submarine into leftGridArray")
-    void testSubmarineInOutLeftGrid() {
-
-        placeYourShipHorizontally(new Submarine(), "leftB1");
-
-        assertEquals(game.getLeftGridValue(1,0), 5, "no Submarine on place");
-    }
-
-     */
 }
