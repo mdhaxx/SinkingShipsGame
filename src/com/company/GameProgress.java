@@ -23,7 +23,7 @@ public class GameProgress implements Runnable {
     }
 
     /**
-     * Creates each ship
+     * Initializes each ship
      * @param actionCommand String that holds which button has been pushed
      */
     void actionCase(String actionCommand) {
@@ -115,6 +115,11 @@ public class GameProgress implements Runnable {
         }
     }
 
+    /**
+     * Places the ship vertically
+     * @param currentShip The ship that is currently being placed
+     * @param actionCommand String that holds what button has been pushed
+     */
     void placeYourShipVertically(Ship currentShip, String actionCommand) {
         if(Integer.parseInt(actionCommand.substring(5)) <= 60 + ((5-currentShip.getShipLength())*10)) {
             boolean empty = true;
@@ -139,6 +144,11 @@ public class GameProgress implements Runnable {
         }
     }
 
+    /**
+     * Places the ship horizontally
+     * @param currentShip The ship that is currently being placed
+     * @param actionCommand String that holds what button has been pushed
+     */
     void placeYourShipHorizontally(Ship currentShip, String actionCommand) {
         if(Integer.parseInt(actionCommand.substring(actionCommand.length()-1)) <= ((10-currentShip.getShipLength())+1) && Integer.parseInt(actionCommand.substring(actionCommand.length()-1)) != 0)  {
             boolean empty = true;
@@ -163,24 +173,20 @@ public class GameProgress implements Runnable {
         }
     }
 
+    /**
+     * Simulates a pushed button from the opponent, while playing against the computer
+     * Gets a randomized number between 1-100
+     */
     void placeOpponentsShip() {
         int placement = ((int)(100*Math.random())+1);
 
         actionCaseOpponent(placement);
     }
 
-    void caseActionOpponent(Ship currentShip, int placement){
-        int alignment = (int)Math.round(Math.random());
-
-        if(alignment == 0){
-            placeOpponentsShipVertically(currentShip, placement);
-        } else {
-            placeOpponentsShipHorizontally(currentShip, placement);
-        }
-    }
-
-
-
+    /**
+     * Initializes each ship of the opponent
+     * @param placement int that holds the chosen placement of the current ship
+     */
     void actionCaseOpponent(int placement) {
         Ship currentShip;
 
@@ -219,6 +225,27 @@ public class GameProgress implements Runnable {
         }
     }
 
+    /**
+     * Simulates the choice of alignment from the opponent, while playing against the computer
+     * @param currentShip The ship that is currently being placed
+     * @param placement An randomized int that decides if the ship should be placed vertically
+     *                  or horizontally
+     */
+    void caseActionOpponent(Ship currentShip, int placement){
+        int alignment = (int)Math.round(Math.random());
+
+        if(alignment == 0){
+            placeOpponentsShipVertically(currentShip, placement);
+        } else {
+            placeOpponentsShipHorizontally(currentShip, placement);
+        }
+    }
+
+    /**
+     * While the players turn, takes the shot and acts differently depending on
+     * where the shot has been placed
+     * @param actionCommand String that holds what button has been pushed
+     */
     void timeToShoot(String actionCommand) {
         if(game.getYourTurn()) {
 
@@ -255,6 +282,10 @@ public class GameProgress implements Runnable {
         }
     }
 
+    /**
+     * While the opponents turn, takes the shot and acts differently depending on
+     * where the shot has been placed
+     */
     void opponentsShot(){
         int indexI = opponentsNextShot();
         game.setYourTurn();
@@ -290,6 +321,10 @@ public class GameProgress implements Runnable {
 
     }
 
+    /**
+     * Ends the game when one player has sunk all of its opponents ships
+     * @param index int that point to the name of the player that has won
+     */
     void gameOver(int index) {
         if(index == 0) {
             infoBox(game.getNameOfPlayer(0) + " says:\n\n\"Muhahahahaahahaha you lost, better luck next time... \"");
