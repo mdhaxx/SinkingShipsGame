@@ -14,17 +14,38 @@ public class Game {
     private boolean yourTurn = true;
     private String placeHolder = "";
 
+    private int yourHit;
+    private int yourNoHit;
+    private int opponentHit;
+    private int opponentNoHit;
+
     private final GameBoard gameBoard;
 
     Game() {
+        GameData gameData = new GameData();
+        gameData.setGame(this);
+        gameData.checkIfGameDataToLoadExist();
+
         gameBoard = new GameBoard(this);
         gameBoard.initGameBoard();
 
+        if(players[0] == null) {
             new GameOpponent(this);
             new GamePlayer(this);
-        GameData gameData = new GameData();
-        gameData.setGame(this);
+        }
     }
+
+    public int getYourHit() {return this.yourHit; }
+    public void setYourHit(int yourHit) { this.yourHit = yourHit; }
+
+    public int getYourNoHit() { return this.yourNoHit; }
+    public void setYourNoHit(int yourNoHit) { this.yourNoHit = yourNoHit; }
+
+    public int getOpponentHit() { return this.opponentHit; }
+    public void setOpponentHit(int opponentHit) { this.opponentHit = opponentHit; }
+
+    public int getOpponentNoHit() { return this.opponentNoHit; }
+    public void setOpponentNoHit(int opponentNoHit) { this.opponentNoHit = opponentNoHit; }
 
     public String getPlacedAtGridPosition(int index) { return this.placedAtGridPosition[index]; }
 

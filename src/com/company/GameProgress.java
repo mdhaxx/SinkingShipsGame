@@ -15,11 +15,6 @@ public class GameProgress implements Runnable {
     private Thread thread;
     private String threadName = "doh";
     private static int lastHit;
-    private static int yourHit;
-    private static int yourNoHit;
-    private static int opponentHit;
-    private static int opponentNoHit;
-
 
 
     GameProgress(Game game, GameBoard gameBoard) {
@@ -218,16 +213,16 @@ public class GameProgress implements Runnable {
                 if(game.getRightGridValue(indexI, 0) == 0) {
                     initThread("blob");
                     gameBoard.rightB[indexI].setIcon(gameBoard.getNoHit());
-                    yourNoHit++;
+                    game.setYourNoHit(game.getYourNoHit()+1);
                     gameBoard.frameRepaint();
                 } else {
                     initThread("e");
                     wait(500);
                     gameBoard.rightB[indexI].setIcon(gameBoard.getHit());
                     gameBoard.rightB[indexI].setBackground(gameBoard.getShipSunk());
-                    yourHit++;
+                    game.setYourHit(game.getYourHit()+1);
                     gameBoard.frameRepaint();
-                    if(yourHit == 17) {
+                    if(game.getYourHit() == 17) {
                         gameOver(1);
                     }
                 }
@@ -254,16 +249,16 @@ public class GameProgress implements Runnable {
             if (game.getLeftGridValue(indexI, 0) == 0) {
                 initThread("blob");
                 gameBoard.leftB[indexI].setIcon(gameBoard.getNoHit());
-                opponentNoHit++;
+                game.setOpponentNoHit(game.getOpponentNoHit()+1);
                 gameBoard.frameRepaint();
             } else {
                 initThread("e");
                 gameBoard.leftB[indexI].setIcon(gameBoard.getHit());
                 gameBoard.leftB[indexI].setBackground(gameBoard.getShipSunk());
-                opponentHit++;
+                game.setOpponentHit(game.getOpponentHit()+1);
                 gameBoard.frameRepaint();
                 lastHit = indexI;
-                if(opponentHit == 17) {
+                if(game.getOpponentHit() == 17) {
                     gameOver(0);
                 }
             }
@@ -283,6 +278,8 @@ public class GameProgress implements Runnable {
         } else {
             infoBox(game.getNameOfPlayer(0) + " says:\n\n\" Congratulations " + game.getNameOfPlayer(1) + ", YOU WON!!! \"");
         }
+        GameData gameData = new GameData();
+        gameData.deleteGameDataFile();
         System.exit(0);
     }
 
@@ -303,8 +300,10 @@ public class GameProgress implements Runnable {
             if (empty) {
                 for (int i = placement; i < (placement + (currentShip.getShipLength() * 10)); i = i + 10) {
                     game.setRightGridValue(i, 0, currentShip.getShipNumber());
-                    //gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
+                    gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
+                    //------------------
                     //remove color later
+                    //------------------
                 }
                 game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
             }
@@ -329,6 +328,9 @@ public class GameProgress implements Runnable {
                 for (int i = placement; i < (placement + (currentShip.getShipLength())); i++) {
                     game.setRightGridValue(i, 0, currentShip.getShipNumber());
                     gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
+                    //------------------
+                    //remove color later
+                    //------------------
                 }
                 game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
             }

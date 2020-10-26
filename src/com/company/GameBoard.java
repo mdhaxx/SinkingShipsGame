@@ -146,11 +146,25 @@ public class GameBoard implements ActionListener {
             for (int j = 1; j <= 10; j++) {
                 leftB[j + i] = new JButton();
                 leftB[j + i].setBounds(width, height, 44, 44);
-                // if -> info i vår array
-                leftB[j + i].setEnabled(true);
                 leftB[j + i].setBackground(new Color(0, 0, 180 - (15 * x)));
-                leftB[j + i].setText("leftB" + (i + j));
                 leftB[j + i].setForeground(new Color(0, 0, 180 - (15 * x)));
+                if(game.getLeftGridValue(j+i,0) > 0){ //om skepp
+                    leftB[j + i].setEnabled(false);
+                    if(game.getLeftGridValue(j+i,1) > 0){ // och träff
+                        leftB[j + i].setBackground(shipSunk);
+                        leftB[j + i].setForeground(shipSunk);
+                        leftB[j + i].setIcon(hit);
+                    } else {
+                        leftB[j + i].setBackground(shipFloating); // inte träff
+                        leftB[j + i].setForeground(shipFloating);
+                    }
+                } else {
+                    if(game.getLeftGridValue(j+i,1) > 0) {
+                        leftB[j + i].setIcon(noHit);
+                    }
+                    leftB[j + i].setEnabled(true);
+                }
+                leftB[j + i].setText("leftB" + (i + j));
                 frame.add(leftB[i + j]);
                 leftB[j + i].addActionListener(this);
                 width = width + 44;
@@ -215,10 +229,25 @@ public class GameBoard implements ActionListener {
             for (int j = 1; j <= 10; j++) {
                 rightB[i + j] = new JButton();
                 rightB[i + j].setBounds(width, height, 44, 44);
-                rightB[i + j].setEnabled(true);
-                rightB[i + j].setBackground(new Color(0, 0, 180 - (15 * x)));
+                rightB[j + i].setEnabled(true);
+                rightB[j + i].setBackground(new Color(0, 0, 180 - (15 * x)));
+                rightB[j + i].setForeground(new Color(0, 0, 180 - (15 * x)));
+                if(game.getRightGridValue(j+i,0) > 0){ //om skepp
+                    if(game.getRightGridValue(j+i,1) > 0){ // och träff
+                        rightB[j + i].setBackground(shipSunk);
+                        rightB[j + i].setForeground(shipSunk);
+                        rightB[j + i].setIcon(hit);
+                    }
+                    else {
+                        rightB[j + i].setBackground(shipFloating);          //tas bort senare
+                        rightB[j + i].setForeground(shipFloating);          //endast för kontroll
+                    }
+                } else {
+                    if(game.getRightGridValue(j+i,1) > 0) { // och skott
+                        rightB[j + i].setIcon(noHit);
+                    }
+                }
                 rightB[i + j].setText("rightB" + (i + j));
-                rightB[i + j].setForeground(new Color(0, 0, 180 - (15 * x)));
                 rightB[i + j].addActionListener(this);
                 frame.add(rightB[i + j]);
                 width = width + 44;

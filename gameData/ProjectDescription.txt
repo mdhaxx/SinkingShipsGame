@@ -28,8 +28,8 @@ men utökas med GUI om tid finns.
   4	  Submarine 	    3
   5	  Destroyer	        2
 - skeppen placeras ut antigen horisontellt eller vertikalt och får inte överlappa varandra
-  och inte vara diagonalt. kontrolleras via exceptions?
-- varannat skott. träff och bom markeras på respektive rutnät (vitt/o för bom och rött/x för träff)
-- skepp markeras upp med rött # vid träff med rött x. andra skott med svart o för bom.
-- När en spelare sänkt motståndarens alla skepp och rundan är avslutad så har den vunnit.
-- Om båda spelarna sänkt alla skepp under samma runda blir det oavgjort.
+  och inte vara diagonalt.
+- varannat skott. träff och bom markeras på respektive rutnät.
+- skepp markeras upp med grönt och rött vid träff.
+- När en spelare sänkt motståndarens alla skepp så har den vunnit.
+
