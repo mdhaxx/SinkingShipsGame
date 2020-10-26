@@ -1,6 +1,5 @@
 package com.company;
 
-
 import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
@@ -9,33 +8,30 @@ import java.util.Scanner;
 
 class GameData {
     private final String fileName = "./gameData/gameData.txt";
-
     private static Game game;
 
     public GameData(){  }
 
-
-    public void setGame(Game game){
+    public void setGame(Game game) {
         GameData.game = game;
     }
 
-    public boolean checkIfDataToSaveExist(){
+    public boolean checkIfDataToSaveExist() {
         boolean isData = false;
         for(int i = 1; i <= 100; i++) {
-
-            if(game.getLeftGridValue(i, 0) > 0){
+            if(game.getLeftGridValue(i, 0) > 0) {
                 isData = true;
                 break;
             }
-            if(game.getLeftGridValue(i, 1) > 0){
+            if(game.getLeftGridValue(i, 1) > 0) {
                 isData = true;
                 break;
             }
-            if(game.getRightGridValue(i, 0) > 0){
+            if(game.getRightGridValue(i, 0) > 0) {
                 isData = true;
                 break;
             }
-            if(game.getRightGridValue(i, 1) > 0){
+            if(game.getRightGridValue(i, 1) > 0) {
                 isData = true;
                 break;
             }
@@ -43,8 +39,8 @@ class GameData {
         return isData;
     }
 
-    public void saveGameData(){
-        if(!checkIfDataToSaveExist()){
+    public void saveGameData() {
+        if(!checkIfDataToSaveExist()) {
             JOptionPane noGame = new JOptionPane();
             JOptionPane.showMessageDialog(noGame, "There is no game to save!", "No game", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -54,8 +50,8 @@ class GameData {
             do {
                 choice = JOptionPane.showOptionDialog(pane,
                         "Do you want to save your game?", "Quit game.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
-            } while (choice == JOptionPane.CLOSED_OPTION);
-            if (choice == 0) {
+            } while(choice == JOptionPane.CLOSED_OPTION);
+            if(choice == 0) {
                 setGameDataToSave();
             } else {
                 deleteGameDataFile();
@@ -64,27 +60,27 @@ class GameData {
         System.exit(0);
     }
 
-    public void deleteGameDataFile(){
+    public void deleteGameDataFile() {
         File file = new File(fileName);
         if(file.exists()) {
             try {
-                if(!file.delete()){
+                if(!file.delete()) {
                     System.err.print("Not able to delete file.");
                 }
-            } catch (Exception e) {
+            } catch(Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void setGameDataToSave(){
+    public void setGameDataToSave() {
         printStringToFile(getStringFromArrayGridLeftAndArrayGridRight(game.getLeftGrid(), game.getRightGrid()) + getStringFromPlayersArray());
     }
 
-    public String getStringFromArrayGridLeftAndArrayGridRight(int[][] arrayLeftGrid, int[][] arrayRightGrid){
+    public String getStringFromArrayGridLeftAndArrayGridRight(int[][] arrayLeftGrid, int[][] arrayRightGrid) {
         StringBuilder contentToWriteToFile = new StringBuilder();
 
-        for(int i = 1; i <=arrayLeftGrid.length-1; i++){
+        for(int i = 1; i <=arrayLeftGrid.length-1; i++) {
                 contentToWriteToFile.append(arrayLeftGrid[i][0]).append(";");
                 contentToWriteToFile.append(arrayLeftGrid[i][1]).append(";");
                 contentToWriteToFile.append(arrayRightGrid[i][0]).append(";");
@@ -93,7 +89,7 @@ class GameData {
         return String.valueOf(contentToWriteToFile).substring(0, contentToWriteToFile.length()-1);
     }
 
-    public String getStringFromPlayersArray(){
+    public String getStringFromPlayersArray() {
         return ";" + game.getNameOfPlayer(0) + ";" + game.getNameOfPlayer(1);
     }
 
@@ -108,21 +104,21 @@ class GameData {
         }
     }
 
-    public void checkIfGameDataToLoadExist(){
+    public void checkIfGameDataToLoadExist() {
         File file = new File(fileName);
         if(file.exists()) {
             getGameDataToLoad();
         }
     }
 
-    public void getGameDataToLoad(){
+    public void getGameDataToLoad() {
         getGameDataToArrayPlayers();
         getGameDataToArrayGridLeftAndArrayGridRight();
         getHowManyShots();
         getWhomTurn();
     }
 
-    public void getGameDataToArrayPlayers(){
+    public void getGameDataToArrayPlayers() {
         String stringReceivedFromFile = readStringFromFile();
         String[] splitStringReceivedFromFile = stringReceivedFromFile.split(";");
 
@@ -130,12 +126,12 @@ class GameData {
         game.setPlayerNameFromInput(splitStringReceivedFromFile[splitStringReceivedFromFile.length-1],1);
     }
 
-    public void getGameDataToArrayGridLeftAndArrayGridRight(){
+    public void getGameDataToArrayGridLeftAndArrayGridRight() {
         String stringReceivedFromFile = readStringFromFile();
         String[] splitStringReceivedFromFile = stringReceivedFromFile.split(";");
 
         int row = 1;
-        for(int i = 0; i <= (splitStringReceivedFromFile.length)-3; i+=4){
+        for(int i = 0; i <= (splitStringReceivedFromFile.length)-3; i+=4) {
             game.setLeftGridValue(row, 0, Integer.parseInt(splitStringReceivedFromFile[i]));
             game.setLeftGridValue(row, 1, Integer.parseInt(splitStringReceivedFromFile[i+1]));
             game.setRightGridValue(row, 0, Integer.parseInt(splitStringReceivedFromFile[i+2]));
@@ -144,7 +140,7 @@ class GameData {
         }
     }
 
-    public String readStringFromFile(){
+    public String readStringFromFile() {
         Scanner sc;
         String stringInFile = "";
 
@@ -152,16 +148,16 @@ class GameData {
             sc = new Scanner(new File(fileName));
             stringInFile = sc.nextLine();
             sc.close();
-        } catch(Exception e){
+        } catch(Exception e) {
             System.err.println("Ouch! Something went terribly wrong...");
         }
         return stringInFile;
     }
 
-    public void getWhichPlaceHolder(){
+    public void getWhichPlaceHolder() {
         ArrayList<Integer> whichShips = new ArrayList<>();
         for(int i = 1; i <= 100; i++) {
-            if(game.getLeftGridValue(i, 0) > 0){
+            if(game.getLeftGridValue(i, 0) > 0) {
                 whichShips.add(game.getLeftGridValue(i, 0));
             }
         }
@@ -170,7 +166,7 @@ class GameData {
                 .max(Integer::compare)
                 .orElse(0);
 
-        switch (whichPlaceHolder) {
+        switch(whichPlaceHolder) {
             case 1 -> game.setPlaceHolder("Battleship");
             case 2 -> game.setPlaceHolder("Cruiser");
             case 3 -> game.setPlaceHolder("Submarine");
@@ -179,28 +175,28 @@ class GameData {
         }
     }
 
-    public void getHowManyShots(){
+    public void getHowManyShots() {
         for(int i = 1; i <= 100; i++){
-            if(game.getLeftGridValue(i,1) == 1 && game.getLeftGridValue(i,0) > 0){ game.setOpponentHit(game.getOpponentHit()+1); }
-            if(game.getLeftGridValue(i,1) == 1 && game.getLeftGridValue(i,0) == 0){ game.setOpponentNoHit(game.getOpponentNoHit()+1); }
-            if(game.getRightGridValue(i,1) == 1 && game.getRightGridValue(i,0) > 0){ game.setYourHit(game.getYourHit()+1); }
-            if(game.getRightGridValue(i,1) == 1 && game.getRightGridValue(i,0) == 0){ game.setYourNoHit(game.getYourNoHit()+1); }
+            if(game.getLeftGridValue(i,1)  == 1 && game.getLeftGridValue(i,0) > 0)   { game.setOpponentHit(game.getOpponentHit()+1); }
+            if(game.getLeftGridValue(i,1)  == 1 && game.getLeftGridValue(i,0) == 0)  { game.setOpponentNoHit(game.getOpponentNoHit()+1); }
+            if(game.getRightGridValue(i,1) == 1 && game.getRightGridValue(i,0) > 0)  { game.setYourHit(game.getYourHit()+1); }
+            if(game.getRightGridValue(i,1) == 1 && game.getRightGridValue(i,0) == 0) { game.setYourNoHit(game.getYourNoHit()+1); }
         }
     }
 
-    public void getWhomTurn(){
+    public void getWhomTurn() {
         int countShotsYou = 0;
         int countShotsOpp = 0;
 
-        for(int i = 1; i <= 100; i++){
-            if(game.getLeftGridValue(i,1) == 1){
+        for(int i = 1; i <= 100; i++) {
+            if(game.getLeftGridValue(i,1) == 1) {
                 countShotsYou++;
             }
-            if(game.getRightGridValue(i,1) == 1){
+            if(game.getRightGridValue(i,1) == 1) {
                 countShotsOpp++;
             }
         }
-        if(countShotsOpp > countShotsYou){
+        if(countShotsOpp > countShotsYou) {
             game.setYourTurn();
         }
     }
