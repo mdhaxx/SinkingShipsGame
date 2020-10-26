@@ -117,7 +117,7 @@ class GameData {
         getGameDataToArrayPlayers();
         getGameDataToArrayGridLeftAndArrayGridRight();
         getHowManyShots();
-        getWhosTurn();
+        getWhomTurn();
     }
 
     public void getGameDataToArrayPlayers(){
@@ -166,7 +166,7 @@ class GameData {
         int whichPlaceHolder = whichShips
                 .stream()
                 .max(Integer::compare)
-                .get();
+                .orElse(0);
 
         switch (whichPlaceHolder) {
             case 1 -> game.setPlaceHolder("Battleship");
@@ -186,7 +186,7 @@ class GameData {
         }
     }
 
-    public void getWhosTurn(){
+    public void getWhomTurn(){
         int countShotsYou = 0;
         int countShotsOpp = 0;
 

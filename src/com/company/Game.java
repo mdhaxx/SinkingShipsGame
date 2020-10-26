@@ -5,7 +5,7 @@ public class Game {
     private int[][] leftGrid = new int[101][2];
     private int[][] rightGrid = new int[101][2];
     private String[] players = new String[2];
-    private String[] placedAtGridPosition = { "Water", "Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer", "Game On" };
+    private final String[] placedAtGridPosition = { "Water", "Carrier", "Battleship", "Cruiser", "Submarine", "Destroyer", "Game On" };
 
     private boolean yourTurn = true;
     private String placeHolder = "";

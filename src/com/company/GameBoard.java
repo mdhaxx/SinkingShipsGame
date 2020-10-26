@@ -36,7 +36,7 @@ public class GameBoard implements ActionListener {
     private final ImageIcon hit = new ImageIcon("gameData/images/hit3.png");
     private final ImageIcon noHit = new ImageIcon("gameData/images/drop.png");
 
-    private Game game;
+    private final Game game;
 
 
     GameBoard(Game game) {
