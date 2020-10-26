@@ -116,7 +116,6 @@ class GameData {
     public void getGameDataToLoad(){
         getGameDataToArrayPlayers();
         getGameDataToArrayGridLeftAndArrayGridRight();
-        getWhichPlaceHolder();
         getHowManyShots();
         getWhosTurn();
     }
@@ -164,41 +163,18 @@ class GameData {
                 whichShips.add(game.getLeftGridValue(i, 0));
             }
         }
-        int result = whichShips
+        int whichPlaceHolder = whichShips
                 .stream()
                 .max(Integer::compare)
                 .get();
 
-        Ship loadedShip = new Carrier();
-        switch (result) {
-            case 1 -> {
-               game.setPlaceHolder("Battleship");
-               loadedShip = new Battleship();
-               break;
-            }
-            case 2 -> {
-                game.setPlaceHolder("Cruiser");
-                loadedShip = new Cruiser();
-                break;
-            }
-            case 3 -> {
-                game.setPlaceHolder("Submarine");
-                loadedShip = new Submarine();
-                break;
-            }
-            case 4 -> {
-                game.setPlaceHolder("Destroyer");
-                loadedShip = new Destroyer();
-                break;
-            }
-            case 5 -> {
-                game.setPlaceHolder("Shooting");
-
-                break;
-            }
-
+        switch (whichPlaceHolder) {
+            case 1 -> game.setPlaceHolder("Battleship");
+            case 2 -> game.setPlaceHolder("Cruiser");
+            case 3 -> game.setPlaceHolder("Submarine");
+            case 4 -> game.setPlaceHolder("Destroyer");
+            case 5 -> game.setPlaceHolder("Shooting");
         }
-        game.whereToFromSavedGame(loadedShip);
     }
 
     public void getHowManyShots(){

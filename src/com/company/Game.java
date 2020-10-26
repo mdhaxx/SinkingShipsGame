@@ -28,6 +28,9 @@ public class Game {
         if(players[0] == null) {
             new GameOpponent(this);
             new GamePlayer(this);
+        } else {
+            gameData.getWhichPlaceHolder();
+            whereToFromSavedGame();
         }
 
     }
@@ -84,9 +87,15 @@ public class Game {
         }
     }
 
-    void whereToFromSavedGame(Ship loadedShip){
+    void whereToFromSavedGame(){
         GameProgress gameProgress = new GameProgress(this, gameBoard);
-        gameProgress.userDialogueInitShip(loadedShip);
+        switch (placeHolder) {
+            case "Battleship" -> gameProgress.caseAction(new Battleship(), "");
+            case "Cruiser"    -> gameProgress.caseAction(new Cruiser(),    "");
+            case "Submarine"  -> gameProgress.caseAction(new Submarine(),  "");
+            case "Destroyer"  -> gameProgress.caseAction(new Destroyer(),  "");
+            case "Shooting"   -> gameBoard.disableLeftButtons();
+        }
     }
 
     public static void main(String[] args) {
