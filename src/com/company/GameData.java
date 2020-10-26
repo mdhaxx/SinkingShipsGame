@@ -68,7 +68,9 @@ class GameData {
         File file = new File(fileName);
         if(file.exists()) {
             try {
-                boolean test = file.delete();
+                if(!file.delete()){
+                    System.err.print("Not able to delete file.");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
