@@ -305,6 +305,7 @@ public class GameProgress implements Runnable {
      * @param index int that point to the name of the player that has won
      */
     void gameOver(int index) {
+        initThread("tada");
         if(index == 0) {
             infoBox(game.getNameOfPlayer(0) + " says:\n\n\"Muhahahahaahahaha you lost, better luck next time... \"");
         } else {
