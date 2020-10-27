@@ -66,7 +66,6 @@ public class GameBoard implements ActionListener {
             public void windowClosing(WindowEvent windowEvent) {
                 GameData gameData = new GameData();
                 gameData.saveGameData();
-                System.out.println("stäng");
             }
         });
     }
