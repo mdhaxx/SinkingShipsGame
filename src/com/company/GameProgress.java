@@ -212,7 +212,7 @@ public class GameProgress implements Runnable {
                 caseActionOpponent(currentShip, placement);
             }
             case "Game On" -> {
-                //initThread("laugh");
+                initThread("laugh");
                 wait(1100);
                 infoBox(game.getNameOfPlayer(0) + " says:\n\n\" I have placed my fleet!\nBest of luck, try to find it...\"\n\nGame is on!!!");
                 game.setPlaceHolder("Shooting");
@@ -228,8 +228,7 @@ public class GameProgress implements Runnable {
     /**
      * Simulates the choice of alignment from the opponent, while playing against the computer
      * @param currentShip The ship that is currently being placed
-     * @param placement An randomized int that decides if the ship should be placed vertically
-     *                  or horizontally
+     * @param placement int that holds the chosen placement of the current ship
      */
     void caseActionOpponent(Ship currentShip, int placement){
         int alignment = (int)Math.round(Math.random());
@@ -342,6 +341,11 @@ public class GameProgress implements Runnable {
         //lastHit+1
     }
 
+    /**
+     * Places the opponents ship vertically
+     * @param currentShip the ship that is currently being placed
+     * @param placement int that holds the chosen placement of the current ship
+     */
     void placeOpponentsShipVertically(Ship currentShip, int placement) {
         if (placement <= 60 + ((5 - currentShip.getShipLength()) * 10)) {
             boolean empty = true;
@@ -364,6 +368,11 @@ public class GameProgress implements Runnable {
         placeOpponentsShip();
     }
 
+    /**
+     * Places the opponents ship horizontally
+     * @param currentShip the ship that is currently being placed
+     * @param placement int that holds the chosen placement of the current ship
+     */
     void placeOpponentsShipHorizontally(Ship currentShip, int placement) {
         int range = placement;
 
@@ -391,11 +400,19 @@ public class GameProgress implements Runnable {
         placeOpponentsShip();
     }
 
+    /**
+     * A infobox that shows a text message
+     * @param textMessage String with the chosen text message
+     */
     void infoBox(String textMessage) {
         JOptionPane text = new JOptionPane();
         JOptionPane.showMessageDialog(text, textMessage, "Info", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Plays a sound
+     * @param audioClip String with the name of the sound file.
+     */
     void makeSomeNoise(String audioClip){
         try
         {
@@ -408,27 +425,37 @@ public class GameProgress implements Runnable {
                 thread.sleep(10);
             clip.close();
         }
-        catch (Exception eAudio)
-        {
-            System.err.print(eAudio);
+        catch (Exception eAudio) {
+            eAudio.printStackTrace();
         }
     }
 
+    /**
+     * Specifies what to run when the thread has been initialized
+     */
     public void run() {
         makeSomeNoise(this.threadName + ".wav");
     }
 
+    /**
+     * Initializes threads to be able to run things simultaneously
+     * @param threadName String with the name for the thread
+     */
     public void initThread(String threadName) {
         this.threadName = threadName;
         thread = new Thread(this, threadName);
         thread.start();
     }
 
+    /**
+     *Adds a delay with the given amount of milliseconds
+     * @param timeInterval time in milliseconds
+     */
     void wait(int timeInterval){
         try {
             TimeUnit.MILLISECONDS.sleep(timeInterval);
         } catch (InterruptedException e) {
-            System.err.print(e);
+            e.printStackTrace();
         }
     }
 }
