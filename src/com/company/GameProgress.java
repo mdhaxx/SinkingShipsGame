@@ -76,9 +76,7 @@ public class GameProgress implements Runnable {
             userDialogueInitShip(currentShip);
         } else {
             placeYourShip(currentShip, actionCommand);
-
         }
-
     }
 
     /**
@@ -232,7 +230,6 @@ public class GameProgress implements Runnable {
      */
     void caseActionOpponent(Ship currentShip, int placement){
         int alignment = (int)Math.round(Math.random());
-
         if(alignment == 0){
             placeOpponentsShipVertically(currentShip, placement);
         } else {
@@ -247,7 +244,6 @@ public class GameProgress implements Runnable {
      */
     void timeToShoot(String actionCommand) {
         if(game.getYourTurn()) {
-
             gameBoard.rightHL.setForeground(new Color(0,0,0));
             gameBoard.leftHL.setForeground(new Color(218,218,218));
             gameBoard.frameRepaint();
@@ -255,12 +251,12 @@ public class GameProgress implements Runnable {
             if(game.getRightGridValue(indexI, 1) == 0) {
                 game.setRightGridValue(indexI, 1, 1);
                 if(game.getRightGridValue(indexI, 0) == 0) {
-                    initThread("blob");
+                    initThread("nohit");
                     gameBoard.rightB[indexI].setIcon(gameBoard.getNoHit());
                     game.setYourNoHit(game.getYourNoHit()+1);
                     gameBoard.frameRepaint();
                 } else {
-                    initThread("e");
+                    initThread("hit");
                     wait(500);
                     gameBoard.rightB[indexI].setIcon(gameBoard.getHit());
                     gameBoard.rightB[indexI].setBackground(gameBoard.getShipSunk());
@@ -286,21 +282,20 @@ public class GameProgress implements Runnable {
      * where the shot has been placed
      */
     void opponentsShot(){
-        int indexI = opponentsNextShot();
+        int indexI = ((int)(100*Math.random())+1);
         game.setYourTurn();
         gameBoard.rightHL.setForeground(new Color(218,218,218));
         gameBoard.leftHL.setForeground(new Color(0,0,0));
         gameBoard.frameRepaint();
-        //infoBox(game.getNameOfPlayer(0) + " says:\n\n\" My turn... \"");
         if(game.getLeftGridValue(indexI, 1) == 0) {
             game.setLeftGridValue(indexI, 1, 1);
             if (game.getLeftGridValue(indexI, 0) == 0) {
-                initThread("blob");
+                initThread("nohit");
                 gameBoard.leftB[indexI].setIcon(gameBoard.getNoHit());
                 game.setOpponentNoHit(game.getOpponentNoHit()+1);
                 gameBoard.frameRepaint();
             } else {
-                initThread("e");
+                initThread("hit");
                 gameBoard.leftB[indexI].setIcon(gameBoard.getHit());
                 gameBoard.leftB[indexI].setBackground(gameBoard.getShipSunk());
                 game.setOpponentHit(game.getOpponentHit()+1);
@@ -310,14 +305,10 @@ public class GameProgress implements Runnable {
                     gameOver(0);
                 }
             }
-
-            //infoBox("Your turn!");
             game.setYourTurn();
         } else {
             opponentsShot();
         }
-
-
     }
 
     /**
@@ -333,12 +324,6 @@ public class GameProgress implements Runnable {
         GameData gameData = new GameData();
         gameData.deleteGameDataFile();
         System.exit(0);
-    }
-
-    int opponentsNextShot() {
-       return ((int)(100*Math.random())+1);
-        //if(lastHit > 0)
-        //lastHit+1
     }
 
     /**
@@ -357,10 +342,6 @@ public class GameProgress implements Runnable {
             if (empty) {
                 for (int i = placement; i < (placement + (currentShip.getShipLength() * 10)); i = i + 10) {
                     game.setRightGridValue(i, 0, currentShip.getShipNumber());
-                    gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
-                    //------------------
-                    //remove color later
-                    //------------------
                 }
                 game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
             }
@@ -375,7 +356,6 @@ public class GameProgress implements Runnable {
      */
     void placeOpponentsShipHorizontally(Ship currentShip, int placement) {
         int range = placement;
-
         if(placement > 9){
             range = placement % 10;
         }
@@ -389,10 +369,6 @@ public class GameProgress implements Runnable {
             if (empty) {
                 for (int i = placement; i < (placement + (currentShip.getShipLength())); i++) {
                     game.setRightGridValue(i, 0, currentShip.getShipNumber());
-                    gameBoard.rightB[i].setBackground(gameBoard.getShipFloating());
-                    //------------------
-                    //remove color later
-                    //------------------
                 }
                 game.setPlaceHolder(game.getPlacedAtGridPosition(currentShip.getShipNumber() + 1));
             }
