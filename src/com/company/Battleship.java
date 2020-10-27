@@ -1,6 +1,6 @@
 package com.company;
 
-public class Battleship implements Ship {
+class Battleship implements Ship {
 
     private final String shipType = "Battleship";
     private final int shipNumber = 2;
