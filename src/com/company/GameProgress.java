@@ -4,7 +4,6 @@ package com.company;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -14,7 +13,6 @@ public class GameProgress implements Runnable {
     private final GameBoard gameBoard;
     private Thread thread;
     private String threadName = "doh";
-    private static int lastHit;
 
 
     GameProgress(Game game, GameBoard gameBoard) {
@@ -59,7 +57,6 @@ public class GameProgress implements Runnable {
                 game.setYourTurn();
                 gameBoard.disableLeftButtons();
                 game.setPlaceHolder("Carrier");
-                GameOpponent gameOpponent = new GameOpponent(game);
                 infoBox("All your ships have been placed!");
                 placeOpponentsShip();
             }
@@ -296,7 +293,6 @@ public class GameProgress implements Runnable {
                 gameBoard.leftB[indexI].setDisabledIcon(gameBoard.getHit());
                 game.setOpponentHit(game.getOpponentHit()+1);
                 gameBoard.frameRepaint();
-                lastHit = indexI;
                 if(game.getOpponentHit() == 17) {
                     gameOver(0);
                 }
