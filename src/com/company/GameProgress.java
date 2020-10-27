@@ -1,19 +1,16 @@
 package com.company;
 
-
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-
 public class GameProgress implements Runnable {
     private final Game game;
     private final GameBoard gameBoard;
     private Thread thread;
     private String threadName = "doh";
-
 
     GameProgress(Game game, GameBoard gameBoard) {
         this.game = game;
@@ -387,7 +384,7 @@ public class GameProgress implements Runnable {
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(new File("./gameData/sound/" + audioClip)));
             clip.start();
-            while (!clip.isRunning())
+            while (!clip.isRunning())   // this sleep is necessary to be able to play the sound.
                 thread.sleep(10);
             while (clip.isRunning())
                 thread.sleep(10);
