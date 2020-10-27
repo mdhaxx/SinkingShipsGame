@@ -244,8 +244,6 @@ public class GameProgress implements Runnable {
      */
     void timeToShoot(String actionCommand) {
         if(game.getYourTurn()) {
-            gameBoard.rightHL.setForeground(new Color(0,0,0));
-            gameBoard.leftHL.setForeground(new Color(218,218,218));
             gameBoard.frameRepaint();
             int indexI = Integer.parseInt(actionCommand.substring(6));
             if(game.getRightGridValue(indexI, 1) == 0) {
@@ -284,8 +282,6 @@ public class GameProgress implements Runnable {
     void opponentsShot(){
         int indexI = ((int)(100*Math.random())+1);
         game.setYourTurn();
-        gameBoard.rightHL.setForeground(new Color(218,218,218));
-        gameBoard.leftHL.setForeground(new Color(0,0,0));
         gameBoard.frameRepaint();
         if(game.getLeftGridValue(indexI, 1) == 0) {
             game.setLeftGridValue(indexI, 1, 1);
