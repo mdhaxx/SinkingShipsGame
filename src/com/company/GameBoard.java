@@ -70,18 +70,28 @@ public class GameBoard implements ActionListener {
         });
     }
 
+    /**
+     * Disables the left grid buttons while playing
+     */
     void disableLeftButtons() {
         for(int i = 1; i <= 100; i++) {
             leftB[i].setEnabled(false);
         }
     }
 
+    /**
+     * Enables or disables the right grid buttons
+     * @param state boolean value, true for enable, false for disable
+     */
     void enableRightButtons(boolean state) {
         for(int i = 1; i <= 100; i++) {
             rightB[i].setEnabled(state);
         }
     }
 
+    /**
+     * Sets the frame properties
+     */
     void printFrame() {
         frame.setBounds(200, 150, frameWidth, frameHeight);
         frame.setLayout(null);
@@ -89,12 +99,18 @@ public class GameBoard implements ActionListener {
         frame.setLocationRelativeTo(null);
     }
 
+    /**
+     * Sets the properties of the left grid head label(Your field) and adds it to the frame
+     */
     void printLeftGridHeadLabel() {
         leftHL.setBounds((frameWidth / 4) - 40, 5, 150, 16);
         leftHL.setFont(new Font("Verdana", Font.BOLD, 14));
         frame.add(leftHL);
     }
 
+    /**
+     * Sets the properties of the left grid top labels(A-J) and adds it to the frame
+     */
     void printLeftGridTopLabels() {
         int width = 79;
         for (int i = 0; i < 10; i++) {
@@ -109,6 +125,9 @@ public class GameBoard implements ActionListener {
         }
     }
 
+    /**
+     * Sets the properties of the left grid side labels(1-10) and adds it to the frame
+     */
     void printLeftGridSideLabels() {
         int width = 35;
         int height = 79;
@@ -124,6 +143,9 @@ public class GameBoard implements ActionListener {
         }
     }
 
+    /**
+     * Sets the properties of the left grid buttons(1-100) and adds it to the frame
+     */
     void printLeftGridButtons() {
         int width = 79;
         int height = 79;
@@ -163,18 +185,27 @@ public class GameBoard implements ActionListener {
         }
     }
 
+    /**
+     * Sets the properties of the mid line between the grids and adds it to the frame
+     */
     void printMidLine() {
         midLine.setBounds(frameWidth / 2, 0, 1, frameHeight - 36);
         midLine.setBorder(blackLine);
         frame.add(midLine);
     }
 
+    /**
+     * Sets the properties of the right grid head label(Opponents field) and adds it to the frame
+     */
     void printRightGridHeadLabel() {
         rightHL.setBounds((frameWidth / 4) * 3 - 54, 5, 150, 18);
         rightHL.setFont(fontHeader);
         frame.add(rightHL);
     }
 
+    /**
+     * Sets the properties of the right grid top labels(A-J) and adds it to the frame
+     */
     void printRightGridTopLabels() {
         int width = (frameWidth / 2) + 79;
         for (int i = 0; i < 10; i++) {
@@ -189,6 +220,9 @@ public class GameBoard implements ActionListener {
         }
     }
 
+    /**
+     * Sets the properties of the right grid side labels(1-10) and adds it to the frame
+     */
     void printRightGridSideLabels() {
         int width = (frameWidth / 2) + 35;
         int height = 79;
@@ -204,6 +238,9 @@ public class GameBoard implements ActionListener {
         }
     }
 
+    /**
+     * Sets the properties of the right grid buttons(1-100) and adds it to the frame
+     */
     void printRightGridButtons() {
         int width = (frameWidth / 2) + 79;
         int height = 79;
@@ -237,10 +274,18 @@ public class GameBoard implements ActionListener {
         }
     }
 
+    /**
+     * Repaints the frame, to update the graphics
+     */
     public void frameRepaint(){
         frame.repaint();
     }
 
+    /**
+     * Receives an ActionEvent from the ActionListener when a button has been pushed.
+     * Sends a string with the name of the button to the next action
+     * @param e The ActionEvent object
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
             game.nextAction(e.getActionCommand());
