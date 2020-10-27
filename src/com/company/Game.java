@@ -66,13 +66,20 @@ public class Game {
     public void setYourTurn() { this.yourTurn = !this.getYourTurn(); }
     public boolean getYourTurn() { return this.yourTurn; }
 
-
+    /**
+     * gets the players name and tugs it away.
+     * redirects to the next action to take.
+     */
     void redirectFromGamePlayer(GamePlayer gamePlayer, String name) {
         gamePlayer.dispose();
         this.players[1] = name;
         nextAction("");
     }
 
+    /**
+     * redirects the game thru to the next step
+     * adding new ships or playing the game
+     */
     void nextAction(String actionCommand) {
         GameProgress gameprogress = new GameProgress(this, gameBoard);
         if(actionCommand.length() == 0) {
@@ -86,6 +93,9 @@ public class Game {
         }
     }
 
+    /**
+     * analyzes the loaded gamData to determine where to be in the game to be and pick up from there.
+     */
     void whereToFromSavedGame() {
         GameProgress gameProgress = new GameProgress(this, gameBoard);
         switch(placeHolder) {
