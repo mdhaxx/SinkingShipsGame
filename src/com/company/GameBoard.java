@@ -140,6 +140,7 @@ public class GameBoard implements ActionListener {
                         leftB[j + i].setBackground(shipSunk);
                         leftB[j + i].setForeground(shipSunk);
                         leftB[j + i].setIcon(hit);
+                        leftB[j + i].setDisabledIcon(hit);
                     } else {
                         leftB[j + i].setBackground(shipFloating);
                         leftB[j + i].setForeground(shipFloating);
@@ -147,6 +148,7 @@ public class GameBoard implements ActionListener {
                 } else {
                     if(game.getLeftGridValue(j+i,1) > 0) {
                         leftB[j + i].setIcon(noHit);
+                        leftB[j + i].setDisabledIcon(noHit);
                     }
                     leftB[j + i].setEnabled(true);
                 }
