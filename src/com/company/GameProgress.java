@@ -216,8 +216,6 @@ public class GameProgress implements Runnable {
                 game.setPlaceHolder("Shooting");
                 game.setYourTurn();
                 gameBoard.enableRightButtons(true);
-                gameBoard.rightHL.setForeground(new Color(0,0,0));
-                gameBoard.leftHL.setForeground(new Color(218,218,218));
                 gameBoard.frameRepaint();
             }
         }
