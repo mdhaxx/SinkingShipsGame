@@ -5,11 +5,11 @@ public class GameOpponent {
 
     GameOpponent(Game game) {
         setOpponentName();
-        game.setPlayerNameFromInput(this.opponentName, 0);
+        game.setPlayerNameFromInput(opponentName, 0);
     }
 
     public void setOpponentName() {
-        this.opponentName = "Admiral BigShot";
+        opponentName = "Admiral BigShot";
         //prepared for multiplayer
     }
 

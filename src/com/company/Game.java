@@ -32,10 +32,9 @@ public class Game {
             gameData.getWhichPlaceHolder();
             whereToFromSavedGame();
         }
-
     }
 
-    public int getYourHit() {return this.yourHit; }
+    public int getYourHit() { return this.yourHit; }
     public void setYourHit(int yourHit) { this.yourHit = yourHit; }
 
     public int getYourNoHit() { return this.yourNoHit; }
@@ -49,23 +48,23 @@ public class Game {
 
     public String getPlacedAtGridPosition(int index) { return this.placedAtGridPosition[index]; }
 
-    public void setPlayerNameFromInput(String name, int index){ this.players[index] = name;}
-    public String getNameOfPlayer(int index){ return this.players[index];}
+    public void setPlayerNameFromInput(String name, int index) { this.players[index] = name; }
+    public String getNameOfPlayer(int index) { return this.players[index]; }
 
-    public void setPlaceHolder(String placeHolder){ this.placeHolder = placeHolder;}
-    public String getPlaceHolder(){ return this.placeHolder;}
+    public void setPlaceHolder(String placeHolder) { this.placeHolder = placeHolder; }
+    public String getPlaceHolder() { return this.placeHolder; }
 
-    public void setLeftGridValue(int indexI, int indexJ, int value){ this.leftGrid[indexI][indexJ] = value;}
-    public int getLeftGridValue(int indexI, int indexJ){ return this.leftGrid[indexI][indexJ];}
+    public void setLeftGridValue(int indexI, int indexJ, int value) { this.leftGrid[indexI][indexJ] = value; }
+    public int getLeftGridValue(int indexI, int indexJ) { return this.leftGrid[indexI][indexJ]; }
 
-    public int[][] getLeftGrid(){ return this.leftGrid; }
-    public int[][] getRightGrid(){ return this.rightGrid; }
+    public int[][] getLeftGrid() { return this.leftGrid; }
+    public int[][] getRightGrid() { return this.rightGrid; }
 
-    public void setRightGridValue(int indexI, int indexJ, int value){ this.rightGrid[indexI][indexJ] = value;}
-    public int getRightGridValue(int indexI, int indexJ){ return this.rightGrid[indexI][indexJ];}
+    public void setRightGridValue(int indexI, int indexJ, int value) { this.rightGrid[indexI][indexJ] = value; }
+    public int getRightGridValue(int indexI, int indexJ) { return this.rightGrid[indexI][indexJ]; }
 
-    public void setYourTurn(){ this.yourTurn = !this.getYourTurn(); }
-    public boolean getYourTurn(){ return this.yourTurn; }
+    public void setYourTurn() { this.yourTurn = !this.getYourTurn(); }
+    public boolean getYourTurn() { return this.yourTurn; }
 
 
     void redirectFromGamePlayer(GamePlayer gamePlayer, String name) {
@@ -76,7 +75,7 @@ public class Game {
 
     void nextAction(String actionCommand) {
         GameProgress gameprogress = new GameProgress(this, gameBoard);
-        if(actionCommand.length() == 0){
+        if(actionCommand.length() == 0) {
             gameprogress.actionCase(actionCommand);
         } else if(placeHolder.equals("Shooting")) {
             gameprogress.timeToShoot(actionCommand);
@@ -87,9 +86,9 @@ public class Game {
         }
     }
 
-    void whereToFromSavedGame(){
+    void whereToFromSavedGame() {
         GameProgress gameProgress = new GameProgress(this, gameBoard);
-        switch (placeHolder) {
+        switch(placeHolder) {
             case "Battleship" -> gameProgress.caseAction(new Battleship(), "");
             case "Cruiser"    -> gameProgress.caseAction(new Cruiser(),    "");
             case "Submarine"  -> gameProgress.caseAction(new Submarine(),  "");

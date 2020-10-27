@@ -11,11 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GameDataTest{
 
-    private int[][] testArrayL = new int[3][2];
-    private int[][] testArrayR = new int[3][2];
-
-    private int[][] comparingTestArrayL = new int[3][2];
-    private int[][] comparingTestArrayR = new int[3][2];
+    private final int[][] testArrayL = new int[3][2];
+    private final int[][] testArrayR = new int[3][2];
 
     GameDataTest() {  }
 

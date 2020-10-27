@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-
 public class GameBoard implements ActionListener {
 
     private final JFrame frame = new JFrame();
@@ -38,7 +37,6 @@ public class GameBoard implements ActionListener {
 
     private final Game game;
 
-
     GameBoard(Game game) {
         this.game = game;
     }
@@ -50,7 +48,6 @@ public class GameBoard implements ActionListener {
     public ImageIcon getHit() { return this.hit; }
 
     void initGameBoard() {
-
         printFrame();
         printLeftGridHeadLabel();
         printLeftGridTopLabels();
@@ -69,7 +66,6 @@ public class GameBoard implements ActionListener {
             public void windowClosing(WindowEvent windowEvent) {
                 GameData gameData = new GameData();
                 gameData.saveGameData();
-                System.out.println("stäng");
             }
         });
     }
@@ -101,7 +97,6 @@ public class GameBoard implements ActionListener {
 
     void printLeftGridTopLabels() {
         int width = 79;
-
         for (int i = 0; i < 10; i++) {
             leftTL[i] = new JLabel(Character.toString((char) 65 + i));
             leftTL[i].setBounds(width, 35, 44, 44);
@@ -117,7 +112,6 @@ public class GameBoard implements ActionListener {
     void printLeftGridSideLabels() {
         int width = 35;
         int height = 79;
-
         for (int i = 0; i < 10; i++) {
             leftSL[i] = new JLabel("" + (i + 1));
             leftSL[i].setBounds(width, height, 44, 44);
@@ -134,28 +128,20 @@ public class GameBoard implements ActionListener {
         int width = 79;
         int height = 79;
         int x = 1;
-/*
-        for (int height = 0; height < 10; height++) {
-            for (int width = 1; width <= 10; width++) {            Andreas variant av loopen
-                knappNr = (height * 10) + width;
-            }
-        }
-
-*/
-        for (int i = 0; i < 100; i = i + 10) {
-            for (int j = 1; j <= 10; j++) {
+        for(int i = 0; i < 100; i = i + 10) {
+            for(int j = 1; j <= 10; j++) {
                 leftB[j + i] = new JButton();
                 leftB[j + i].setBounds(width, height, 44, 44);
                 leftB[j + i].setBackground(new Color(0, 0, 180 - (15 * x)));
                 leftB[j + i].setForeground(new Color(0, 0, 180 - (15 * x)));
-                if(game.getLeftGridValue(j+i,0) > 0){ //om skepp
+                if(game.getLeftGridValue(j+i,0) > 0) {
                     leftB[j + i].setEnabled(false);
-                    if(game.getLeftGridValue(j+i,1) > 0){ // och träff
+                    if(game.getLeftGridValue(j+i,1) > 0) {
                         leftB[j + i].setBackground(shipSunk);
                         leftB[j + i].setForeground(shipSunk);
                         leftB[j + i].setIcon(hit);
                     } else {
-                        leftB[j + i].setBackground(shipFloating); // inte träff
+                        leftB[j + i].setBackground(shipFloating);
                         leftB[j + i].setForeground(shipFloating);
                     }
                 } else {
@@ -184,13 +170,11 @@ public class GameBoard implements ActionListener {
     void printRightGridHeadLabel() {
         rightHL.setBounds((frameWidth / 4) * 3 - 54, 5, 150, 18);
         rightHL.setFont(fontHeader);
-
         frame.add(rightHL);
     }
 
     void printRightGridTopLabels() {
         int width = (frameWidth / 2) + 79;
-
         for (int i = 0; i < 10; i++) {
             rightTL[i] = new JLabel(Character.toString((char) 65 + i));
             rightTL[i].setBounds(width, 35, 44, 44);
@@ -206,8 +190,7 @@ public class GameBoard implements ActionListener {
     void printRightGridSideLabels() {
         int width = (frameWidth / 2) + 35;
         int height = 79;
-
-        for (int i = 0; i < 10; i++) {
+        for(int i = 0; i < 10; i++) {
             rightSL[i] = new JLabel("" + (i + 1));
             rightSL[i].setBounds(width, height, 44, 44);
             rightSL[i].setBorder(blackLine);
@@ -216,7 +199,6 @@ public class GameBoard implements ActionListener {
             rightSL[i].setFont(fontText);
             frame.add(rightSL[i]);
             height = height + 44;
-
         }
     }
 
@@ -224,26 +206,21 @@ public class GameBoard implements ActionListener {
         int width = (frameWidth / 2) + 79;
         int height = 79;
         int x = 1;
-
-        for (int i = 0; i < 100; i = i + 10) {
-            for (int j = 1; j <= 10; j++) {
+        for(int i = 0; i < 100; i = i + 10) {
+            for(int j = 1; j <= 10; j++) {
                 rightB[i + j] = new JButton();
                 rightB[i + j].setBounds(width, height, 44, 44);
                 rightB[j + i].setEnabled(true);
                 rightB[j + i].setBackground(new Color(0, 0, 180 - (15 * x)));
                 rightB[j + i].setForeground(new Color(0, 0, 180 - (15 * x)));
-                if(game.getRightGridValue(j+i,0) > 0){ //om skepp
-                    if(game.getRightGridValue(j+i,1) > 0){ // och träff
+                if(game.getRightGridValue(j+i,0) > 0) {
+                    if(game.getRightGridValue(j+i,1) > 0) {
                         rightB[j + i].setBackground(shipSunk);
                         rightB[j + i].setForeground(shipSunk);
                         rightB[j + i].setIcon(hit);
                     }
-                    else {
-                        rightB[j + i].setBackground(shipFloating);          //tas bort senare
-                        rightB[j + i].setForeground(shipFloating);          //endast för kontroll
-                    }
                 } else {
-                    if(game.getRightGridValue(j+i,1) > 0) { // och skott
+                    if(game.getRightGridValue(j+i,1) > 0) {
                         rightB[j + i].setIcon(noHit);
                     }
                 }
