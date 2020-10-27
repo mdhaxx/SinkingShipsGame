@@ -292,12 +292,14 @@ public class GameProgress implements Runnable {
             if (game.getLeftGridValue(indexI, 0) == 0) {
                 initThread("nohit");
                 gameBoard.leftB[indexI].setIcon(gameBoard.getNoHit());
+                gameBoard.leftB[indexI].setDisabledIcon(gameBoard.getNoHit());
                 game.setOpponentNoHit(game.getOpponentNoHit()+1);
                 gameBoard.frameRepaint();
             } else {
                 initThread("hit");
                 gameBoard.leftB[indexI].setIcon(gameBoard.getHit());
                 gameBoard.leftB[indexI].setBackground(gameBoard.getShipSunk());
+                gameBoard.leftB[indexI].setDisabledIcon(gameBoard.getHit());
                 game.setOpponentHit(game.getOpponentHit()+1);
                 gameBoard.frameRepaint();
                 lastHit = indexI;
