@@ -8,9 +8,12 @@ public class GameOpponent {
         game.setPlayerNameFromInput(opponentName, 0);
     }
 
+    /**
+     * to add opponents name into the game.
+     * prepared for multifunction purpose.
+     */
     public void setOpponentName() {
         opponentName = "Admiral BigShot";
-        //prepared for multiplayer
     }
 
 }

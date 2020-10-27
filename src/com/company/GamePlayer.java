@@ -15,6 +15,9 @@ public class GamePlayer extends Frame implements ActionListener {
         setYourNameDialogue();
     }
 
+    /**
+     * retrieves the players name thru user input.
+     */
     void setYourNameDialogue() {
         JTextArea textArea = new JTextArea("text");
         textArea.setText("Hello!\nMy name is " + game.getNameOfPlayer(0) + "\nand I will be your opponent\nfor this game.\n\nAnd who might you be?");
@@ -45,6 +48,9 @@ public class GamePlayer extends Frame implements ActionListener {
         game.setPlaceHolder("GamePlayer");
     }
 
+    /**
+     * pushes the players name into the game.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(!yourName.getText().equals("Enter your name, please!")) {
