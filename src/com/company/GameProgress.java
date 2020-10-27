@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-public class GameProgress implements Runnable {
+class GameProgress implements Runnable {
     private final Game game;
     private final GameBoard gameBoard;
     private Thread thread;
@@ -407,7 +407,7 @@ public class GameProgress implements Runnable {
      * Initializes threads to be able to run things simultaneously
      * @param threadName String with the name for the thread
      */
-    public void initThread(String threadName) {
+    void initThread(String threadName) {
         this.threadName = threadName;
         thread = new Thread(this, threadName);
         thread.start();

@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class GamePlayer extends Frame implements ActionListener {
+class GamePlayer extends Frame implements ActionListener {
     private JTextField yourName;
     private Game game;
 

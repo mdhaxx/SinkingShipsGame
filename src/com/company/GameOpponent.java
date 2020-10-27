@@ -1,6 +1,6 @@
 package com.company;
 
-public class GameOpponent {
+class GameOpponent {
     private static String opponentName;
 
     GameOpponent(Game game) {
@@ -12,7 +12,7 @@ public class GameOpponent {
      * to add opponents name into the game.
      * prepared for multifunction purpose.
      */
-    public void setOpponentName() {
+    void setOpponentName() {
         opponentName = "Admiral BigShot";
     }
 

@@ -1,6 +1,6 @@
 package com.company;
 
-public class Game {
+class Game {
 
     private int[][] leftGrid = new int[101][2];
     private int[][] rightGrid = new int[101][2];
@@ -107,7 +107,7 @@ public class Game {
         }
     }
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         new Game();
     }
 

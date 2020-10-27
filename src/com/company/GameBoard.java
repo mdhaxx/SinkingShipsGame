@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class GameBoard implements ActionListener {
+class GameBoard implements ActionListener {
 
     private final JFrame frame = new JFrame();
     final JButton[] leftB = new JButton[101];
@@ -277,7 +277,7 @@ public class GameBoard implements ActionListener {
     /**
      * Repaints the frame, to update the graphics
      */
-    public void frameRepaint(){
+    void frameRepaint(){
         frame.repaint();
     }
 
