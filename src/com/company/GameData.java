@@ -107,7 +107,19 @@ class GameData {
     public void checkIfGameDataToLoadExist() {
         File file = new File(fileName);
         if(file.exists()) {
-            getGameDataToLoad();
+            JOptionPane pane = new JOptionPane();
+            Object[] options = {"Saved game", "New game"};
+            int choice;
+            do {
+                choice = JOptionPane.showOptionDialog(pane,
+                        "There is a saved game from last time you played.\nDo you want to continue play or start a new game?", "Load game.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+            } while(choice == JOptionPane.CLOSED_OPTION);
+            if(choice == 0) {
+                getGameDataToLoad();
+            } else {
+                deleteGameDataFile();
+                checkIfGameDataToLoadExist();
+            }
         }
     }
 
