@@ -12,10 +12,17 @@ class GameData {
 
     public GameData(){  }
 
+    /**
+     * Method for adding the game-object to gameData().
+     * @param game Game as object.
+     */
     public void setGame(Game game) {
         GameData.game = game;
     }
 
+    /**
+     * Checks if there has been any events in the game so far yet
+     */
     public boolean checkIfDataToSaveExist() {
         boolean isData = false;
         for(int i = 1; i <= 100; i++) {
@@ -39,6 +46,10 @@ class GameData {
         return isData;
     }
 
+    /**
+     * checks whether there is data to save and asks
+     * the user to save or not and take action accordingly.
+     */
     public void saveGameData() {
         if(!checkIfDataToSaveExist()) {
             JOptionPane noGame = new JOptionPane();
@@ -60,6 +71,9 @@ class GameData {
         System.exit(0);
     }
 
+    /**
+     * if there is a savedGame file... delete it
+     */
     public void deleteGameDataFile() {
         File file = new File(fileName);
         if(file.exists()) {
@@ -73,10 +87,19 @@ class GameData {
         }
     }
 
+    /**
+     * gather all data to be printed to file and sets just that in motion.
+     */
     public void setGameDataToSave() {
         printStringToFile(getStringFromArrayGridLeftAndArrayGridRight(game.getLeftGrid(), game.getRightGrid()) + getStringFromPlayersArray());
     }
 
+    /**
+     * takes all info in the arrays from left- and rightside of the gamefield
+     * @param arrayLeftGrid points to the left side of the gamefield
+     * @param arrayRightGrid points to the right side of the gamefield
+     * @return String with all info appended.
+     */
     public String getStringFromArrayGridLeftAndArrayGridRight(int[][] arrayLeftGrid, int[][] arrayRightGrid) {
         StringBuilder contentToWriteToFile = new StringBuilder();
 
@@ -89,10 +112,17 @@ class GameData {
         return String.valueOf(contentToWriteToFile).substring(0, contentToWriteToFile.length()-1);
     }
 
+    /**
+     * gather the players names.
+     * @return String with players names appended.
+     */
     public String getStringFromPlayersArray() {
         return ";" + game.getNameOfPlayer(0) + ";" + game.getNameOfPlayer(1);
     }
 
+    /**
+     * Writes all gameData gathered in a String to the gameData-file.
+     */
     public void printStringToFile(String stringToPutToFile) {
         try {
             FileWriter inputToFile = new FileWriter(fileName);
@@ -104,6 +134,11 @@ class GameData {
         }
     }
 
+    /**
+     * is there any gameData from previous game.
+     * and if so asks the user to load or start a new game.
+     *redirect you accordingly...
+     */
     public void checkIfGameDataToLoadExist() {
         File file = new File(fileName);
         if(file.exists()) {
@@ -123,6 +158,10 @@ class GameData {
         }
     }
 
+    /**
+     * initiates the loading of a previous game.
+     * gather the gameData to add into the game.
+     */
     public void getGameDataToLoad() {
         getGameDataToArrayPlayers();
         getGameDataToArrayGridLeftAndArrayGridRight();
@@ -130,6 +169,9 @@ class GameData {
         getWhomTurn();
     }
 
+    /**
+     * retrieves the players names from savedData-file and adds them into the game.
+     */
     public void getGameDataToArrayPlayers() {
         String stringReceivedFromFile = readStringFromFile();
         String[] splitStringReceivedFromFile = stringReceivedFromFile.split(";");
@@ -138,6 +180,9 @@ class GameData {
         game.setPlayerNameFromInput(splitStringReceivedFromFile[splitStringReceivedFromFile.length-1],1);
     }
 
+    /**
+     * retrieves the gameData from savedData-file and adds it into the game.
+     */
     public void getGameDataToArrayGridLeftAndArrayGridRight() {
         String stringReceivedFromFile = readStringFromFile();
         String[] splitStringReceivedFromFile = stringReceivedFromFile.split(";");
@@ -152,6 +197,10 @@ class GameData {
         }
     }
 
+    /**
+     * retrieves the intel from savedData-file.
+     * @return String with the content of gameData.
+     */
     public String readStringFromFile() {
         Scanner sc;
         String stringInFile = "";
@@ -166,6 +215,10 @@ class GameData {
         return stringInFile;
     }
 
+    /**
+     * analyses the gamedata to determine the placeholder.
+     * or where in the games progress we are in.
+     */
     public void getWhichPlaceHolder() {
         ArrayList<Integer> whichShips = new ArrayList<>();
         for(int i = 1; i <= 100; i++) {
@@ -187,6 +240,9 @@ class GameData {
         }
     }
 
+    /**
+     * analyses the gamedata to determine how many shots have been fired by the players.
+     */
     public void getHowManyShots() {
         for(int i = 1; i <= 100; i++){
             if(game.getLeftGridValue(i,1)  == 1 && game.getLeftGridValue(i,0) > 0)   { game.setOpponentHit(game.getOpponentHit()+1); }
@@ -196,6 +252,9 @@ class GameData {
         }
     }
 
+    /**
+     * analyses the gamedata to determine how's turn it is.
+     */
     public void getWhomTurn() {
         int countShotsYou = 0;
         int countShotsOpp = 0;
