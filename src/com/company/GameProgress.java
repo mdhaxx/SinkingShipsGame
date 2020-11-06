@@ -6,11 +6,12 @@ import javax.swing.*;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-class GameProgress implements Runnable {
+class GameProgress implements Runnable{
     private final Game game;
     private final GameBoard gameBoard;
     private Thread thread;
     private String threadName = "doh";
+    private static int spinner = 0;
 
     GameProgress(Game game, GameBoard gameBoard) {
         this.game = game;
@@ -240,6 +241,7 @@ class GameProgress implements Runnable {
             int indexI = Integer.parseInt(actionCommand.substring(6));
             if(game.getRightGridValue(indexI, 1) == 0) {
                 game.setRightGridValue(indexI, 1, 1);
+                game.setYourTurn();
                 if(game.getRightGridValue(indexI, 0) == 0) {
                     initThread("nohit");
                     gameBoard.rightB[indexI].setIcon(gameBoard.getNoHit());
@@ -259,7 +261,6 @@ class GameProgress implements Runnable {
                 opponentsShot();
             } else {
                 initThread("doh");
-
             }
         } else {
             //Prepare for multiplayer
@@ -273,10 +274,11 @@ class GameProgress implements Runnable {
      */
     void opponentsShot(){
         int indexI = ((int)(100*Math.random())+1);
-        game.setYourTurn();
+
         gameBoard.frameRepaint();
         if(game.getLeftGridValue(indexI, 1) == 0) {
             game.setLeftGridValue(indexI, 1, 1);
+            game.setYourTurn();
             if (game.getLeftGridValue(indexI, 0) == 0) {
                 initThread("nohit");
                 gameBoard.leftB[indexI].setIcon(gameBoard.getNoHit());
@@ -294,7 +296,6 @@ class GameProgress implements Runnable {
                     gameOver(0);
                 }
             }
-            game.setYourTurn();
         } else {
             opponentsShot();
         }
@@ -407,7 +408,7 @@ class GameProgress implements Runnable {
      * Initializes threads to be able to run things simultaneously
      * @param threadName String with the name for the thread
      */
-    void initThread(String threadName) {
+    synchronized void initThread(String threadName) {
         this.threadName = threadName;
         thread = new Thread(this, threadName);
         thread.start();
